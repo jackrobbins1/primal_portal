@@ -5,7 +5,7 @@ import {XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, MarkSeries
 class CategoryChart extends Component{
   state = {
       newData: "a",
-      dataPoint: false
+      hintData: false
   }
 
   componentDidMount() {
@@ -25,6 +25,24 @@ class CategoryChart extends Component{
         {x: 2.5, y: 7, size: 4}
     ]
 
+    let chartData = () => {
+        let array = null
+        if (this.state.newData !== "a" ) {
+            const record_type = {
+                weight: "recordWeight",
+                reps: "recordReps"
+            }
+            array = this.state.newData.category_chart_data.map(obj => {
+                let newObj = Object.assign({}, obj)
+                newObj.y = newObj[record_type[`${obj.recordType}`]]
+                newObj.x = newObj.userBodyWeight
+                return newObj
+            })
+        }
+        // debugger;
+        return array
+    }
+
     const chartSize = window.innerWidth * 0.75
 
     return (
@@ -37,14 +55,16 @@ class CategoryChart extends Component{
             <MarkSeries 
                 animation={true}
                 opacityType={'literal'}
-                data={myData} 
+                colorType='literal'
+                strokeType='literal'
+                data={chartData() !== null ? chartData() : [{x:0,y:0}] }
                 className="mark-series-example"
                 strokeWidth={2}
                 opacity="0.7"
                 sizeRange={[5, 30]}
-                onNearestXY={value => this.setState({dataPoint: value})}
+                onNearestXY={value => this.setState({hintData: value})}
             />
-            {this.state.dataPoint ? <Hint value={this.state.dataPoint} /> : null}
+            {this.state.hintData ? <Hint value={this.state.hintData} /> : null}
             {/* <Hint value={dataPoint} /> */}
         </XYPlot>
       </div>
