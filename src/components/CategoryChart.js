@@ -16,6 +16,28 @@ class CategoryChart extends Component{
       })
   }
 
+  filterHintData = data => {
+    
+    let newData = {
+        User: this.capital_letter(data.userPseudo),
+        x: data.userBodyWeight,
+        y: data.recordWeight,
+    }
+
+    return newData
+  }
+
+  capital_letter = str => {
+    str = str.split(" ");
+
+    for (var i = 0, x = str.length; i < x; i++) {
+        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+    }
+
+    return str.join(" ");
+  }
+
+
   render() {
     const myData = [
         {x: 2, y: 5, size: 1},
@@ -62,7 +84,7 @@ class CategoryChart extends Component{
                 strokeWidth={2}
                 opacity="0.7"
                 sizeRange={[5, 30]}
-                onNearestXY={value => this.setState({hintData: value})}
+                onNearestXY={value => this.setState({hintData: this.filterHintData(value)})}
             />
             {this.state.hintData ? <Hint value={this.state.hintData} /> : null}
             {/* <Hint value={dataPoint} /> */}
