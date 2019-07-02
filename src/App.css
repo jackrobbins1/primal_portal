@@ -31,3 +31,36 @@
     transform: rotate(360deg);
   }
 }
+
+/* General Card Styling */
+.centerTitle{
+  text-align: center
+}
+
+.cardActionButtons{
+  display: flex;
+  justify-content: flex-end
+}
+
+/* End Card Styling */
+
+/* HomePage Styling */
+.centerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.myCard {
+  max-Width: 90%;
+  width: 70vw;
+  margin-bottom: 30px;
+}
+
+/* End HomePage Styling */
+
+/* Side Nav */
+.myList {
+  width: 250px;
+}
+/* End Side Nav */

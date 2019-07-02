@@ -19,7 +19,8 @@ class CategoryChart extends Component{
   filterHintData = data => {
     
     let newData = {
-        User: this.capital_letter(data.userPseudo),
+        // User: this.capital_letter(data.userPseudo),
+        User: data.userPseudo,
         x: data.userBodyWeight,
         y: data.recordWeight,
     }
@@ -65,7 +66,7 @@ class CategoryChart extends Component{
         return array
     }
 
-    const chartSize = window.innerWidth * 0.75
+    const chartSize = window.innerWidth * 0.50
 
     return (
       <div>
