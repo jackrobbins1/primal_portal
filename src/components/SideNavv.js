@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { NavLink } from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
 
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
@@ -49,26 +49,25 @@ class SideNavv extends Component {
       <div className='myList'>
         <Divider />
         <List>
-            <ListItem button>
-                {/* <NavLink to="/"></NavLink> */}
-                <ListItemIcon><HomeIcon /></ListItemIcon>
-                <ListItemText primary={'Home'}/>
+            <ListItem button key="Home" component={Link} to="/">
+              <ListItemIcon><HomeIcon /></ListItemIcon>
+              <ListItemText primary={'Home'}/>
+            </ListItem>
+            <ListItem button key="My Personal Records" component={Link} to="/my_personal_records">
+              <ListItemIcon><InsertChart /></ListItemIcon>
+              <ListItemText primary={'Personal Records'} />           
             </ListItem>
             <ListItem button>
-                <ListItemIcon><InsertChart /></ListItemIcon>
-                <ListItemText primary={'Personal Records'}/>
+              <ListItemIcon><Person /></ListItemIcon>
+              <ListItemText primary={'Account Settings'}/>
             </ListItem>
             <ListItem button>
-                <ListItemIcon><Person /></ListItemIcon>
-                <ListItemText primary={'Account Settings'}/>
+              <ListItemIcon ><AssignmentTurnedIn /></ListItemIcon>
+              <ListItemText primary={'Record Weight'}/>
             </ListItem>
             <ListItem button>
-                <ListItemIcon ><AssignmentTurnedIn /></ListItemIcon>
-                <ListItemText primary={'Record Weight'}/>
-            </ListItem>
-            <ListItem button>
-                <ListItemIcon><People /></ListItemIcon>
-                <ListItemText primary={'My Brackets'}/>
+              <ListItemIcon><People /></ListItemIcon>
+              <ListItemText primary={'My Brackets'}/>
             </ListItem>
         </List>
       </div>
@@ -93,8 +92,8 @@ class SideNavv extends Component {
   }
 }
 
-SideNavv.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// SideNavv.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
 export default SideNavv;

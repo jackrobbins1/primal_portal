@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    fontSize: '1rem',
   },
 }));
 
@@ -30,7 +31,7 @@ export default function Navbarr(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Chicago Primal Personal Record Board
+            CPG PR Board
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

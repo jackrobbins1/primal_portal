@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CategoryChart from '../components/CategoryChart'
 
@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 
-class HomePage extends Component{
+class HomePage extends PureComponent{
   constructor(props) {
     super(props)
     this.state = {
