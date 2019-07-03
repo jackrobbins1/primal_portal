@@ -8,15 +8,18 @@ import Divider from '@material-ui/core/Divider';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import DraftsIcon from '@material-ui/icons/Drafts';
 
-class HomePage extends Component{
+import { Link } from "react-router-dom"
+
+class PRCategoryList extends Component{
     state = {
 
     }
 
     render() {
         const allCategories = this.props.categories.map(cate => {
+            const path = "/pr_chart_page/" + cate.id
             return (
-                <ListItem button>
+                <ListItem button component={Link} to={path}>
                     <ListItemIcon>
                         <FitnessCenterIcon />
                     </ListItemIcon>
@@ -37,4 +40,4 @@ class HomePage extends Component{
     }
 }
 
-export default HomePage;
+export default PRCategoryList;

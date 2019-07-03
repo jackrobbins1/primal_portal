@@ -65,10 +65,10 @@ class SideNavv extends Component {
               <ListItemIcon ><AssignmentTurnedIn /></ListItemIcon>
               <ListItemText primary={'Record Weight'}/>
             </ListItem>
-            <ListItem button>
+            {/* <ListItem button>
               <ListItemIcon><People /></ListItemIcon>
               <ListItemText primary={'My Brackets'}/>
-            </ListItem>
+            </ListItem> */}
         </List>
       </div>
     );

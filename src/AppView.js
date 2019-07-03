@@ -42,18 +42,20 @@ class AppView extends Component{
 
     render() {
         return(
-            <div>
-                <PRChartPage />
-            </div>
+            // <div>
+            //     <PRChartPage />
+            // </div>
 
-            // <Router>
-            //     <Navbarr sideNavHandler={this.sideNavHandler} />
-            //     <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
-            //     <div>
-            //         <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
-            //         <Route exact path="/my_personal_records" component={() => <MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />}  />
-            //     </div>
-            // </Router>
+            <Router>
+                <Navbarr sideNavHandler={this.sideNavHandler} />
+                <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
+                <div>
+                    <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
+                    <Route exact path="/my_personal_records" component={() => <MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />}  />
+                    {/* <Route exact path="/pr_chart_page/:catId" component={() => <PRChartPage />} /> */}
+                    <Route exact path="/pr_chart_page/:catId" component={PRChartPage}/>
+                </div>
+            </Router>
 
         )
         

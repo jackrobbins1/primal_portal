@@ -1,3 +1,5 @@
+import { statement } from "@babel/template";
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -10,6 +12,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import CardHeader from '@material-ui/core/CardHeader';
+
+// my components
+
+import CategoryChartt from '../components/CategoryChartt'
+
+
+
 
 const styles = theme => ({
     root: {
@@ -27,14 +40,15 @@ const styles = theme => ({
 
 class PRChartPage extends Component {
   state = {
-    age: "",
+    prCategoryID: "",
     name: "hai",
     labelWidth: 0
   };
 
   componentDidMount() {
     this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
+        prCategoryID: this.props.match.params.catId,
+        labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
     });
   }
 
@@ -43,45 +57,70 @@ class PRChartPage extends Component {
 //   };
 
   handleChange = event => {
-    this.setState({ age: event.target.value });
+    this.setState({ prCategoryID: event.target.value });
   };
 
   render() {
+    console.log(this)
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel
-            ref={ref => {
-              this.InputLabelRef = ref;
-            }}
-            htmlFor="outlined-age-simple"
-          >
-            PR Category
-          </InputLabel>
-          <Select
-            value={this.state.age}
-            onChange={this.handleChange}
-            input={
-              <OutlinedInput
-                labelWidth={this.state.labelWidth}
-                name="age"
-                id="outlined-age-simple"
-              />
-            }
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
+        <div className='centerContainer'>
+            <div className={classes.root}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel
+                    ref={ref => {
+                    this.InputLabelRef = ref;
+                    }}
+                    htmlFor="outlined-age-simple"
+                >
+                    PR Category
+                </InputLabel>
+                <Select
+                    value={this.state.prCategoryID}
+                    onChange={this.handleChange}
+                    input={
+                    <OutlinedInput
+                        labelWidth={this.state.labelWidth}
+                        name="age"
+                        id="outlined-age-simple"
+                    />
+                    }
+                >
+                    <MenuItem value="">
+                    <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={1}>Turkish Getup</MenuItem>
+                    <MenuItem value={2}>Jump Roap: Double Under</MenuItem>
+                    <MenuItem value={3}>Pull-Ups</MenuItem>
+                    <MenuItem value={4}>Chin-Ups</MenuItem>
+                    <MenuItem value={5}>Push-Ups</MenuItem>
+                    <MenuItem value={6}>Farmer-Carry</MenuItem>
+                    <MenuItem value={7}>Simple and Sinister</MenuItem>
+                </Select>
+                </FormControl>
+            </div>
 
-        
-      </div>
+            <h5>All CPG Members</h5>
+            <CategoryChartt prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}/>
+
+
+            {/* <Card className='myCard'>
+                <CardHeader title='Turkish Getup Records' classes={{ content: 'centerTitle' }}/>
+
+                <CategoryChartt prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}/>
+
+                <CardActions classes={{root: 'cardActionButtons'}}>
+                    <Button size="small" color="primary">
+                        Add Turkish Getup PR
+                    </Button>
+                    <Button size="small" color="primary">
+                        View Record
+                    </Button>
+                </CardActions>
+            </Card> */}
+        </div>
+      
     );
   }
 }

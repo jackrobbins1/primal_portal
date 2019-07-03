@@ -64,3 +64,16 @@
   width: 250px;
 }
 /* End Side Nav */
+
+/* Category Chart Styles */
+.bottomForm {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.myFormControl {
+  width: 50%;
+  min-width: 120px;
+}
+
+/* Category Chart Styles */
