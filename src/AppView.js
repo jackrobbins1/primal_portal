@@ -17,6 +17,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ResponsiveDrawer from './components/Navbar'
 import HomePage from './pages/HomePage'
 import MyPRsPage from './pages/MyPRsPage';
+import PRChartPage from './pages/PRChartPage'
+import PRChartPagee from './pages/PRChartPagee'
 
 class AppView extends Component{
     state = {
@@ -40,23 +42,19 @@ class AppView extends Component{
 
     render() {
         return(
-            <Router>
-                <Navbarr sideNavHandler={this.sideNavHandler} />
-                <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
-                <div>
-                    <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
-                    <Route exact path="/my_personal_records" component={() => <MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />}  />
-                </div>
-            </Router>
+            <div>
+                <PRChartPage />
+            </div>
 
-            // <div>
-            //     <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
+            // <Router>
             //     <Navbarr sideNavHandler={this.sideNavHandler} />
-            //     {this.state.userData ? <HomePage userData={this.state.userData} /> : null}
-            // </div>
-            // <div>
-            //     <HomePage userData={this.state.userData} />
-            // </div>
+            //     <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
+            //     <div>
+            //         <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
+            //         <Route exact path="/my_personal_records" component={() => <MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />}  />
+            //     </div>
+            // </Router>
+
         )
         
     }
