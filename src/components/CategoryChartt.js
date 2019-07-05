@@ -20,6 +20,9 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
 
+const moment = require('moment');
+console.log(moment("20111031", "YYYYMMDD").fromNow())
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -132,10 +135,12 @@ class CategoryChartt extends Component{
                 let newObj = Object.assign({}, obj)
                 newObj.y = newObj[record_type[`${obj.recordType}`]]
                 newObj.x = newObj[xAxisTypes[this.state.xAxis]]
+                if (xAxisTypes[this.state.xAxis] === 'userBday') {
+                  newObj.x = parseInt(moment().diff(newObj.x, 'years')) 
+                }
                 return newObj
             })
         }
-        // debugger;
         return array
     }
 
