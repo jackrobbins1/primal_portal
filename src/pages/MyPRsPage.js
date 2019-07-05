@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CategoryChart from '../components/CategoryChart'
 
 import PRCategoryList from '../components/PRCategoryList'
 

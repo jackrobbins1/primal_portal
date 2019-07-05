@@ -37,8 +37,9 @@ const styles = theme => ({
   },
 });
 
-class CategoryChartt extends Component{
+class CategoryChartPersonal extends Component{
   state = {
+    propDataLoaded: false,
     newData: "a",
     hintData: false,
     categoryTitle: undefined,
@@ -56,15 +57,9 @@ class CategoryChartt extends Component{
   // }
 
   componentWillReceiveProps(nextProps) {
-    fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`)
-    .then(resp => resp.json())
-    .then(data => {
-      this.setState({
-        newData: data,
-        categoryTitle: data.category_info,
-        yAxis: data.category_chart_data.length > 0 ? data.category_chart_data[0].recordType : 'weight'
-      })
-    })
+    if (nextProps.userData !== undefined) {
+      this.setState({propDataLoaded: true})
+    }
   }
 
   filterHintData = data => {
@@ -129,35 +124,72 @@ class CategoryChartt extends Component{
       }
     }
 
-    let chartData = () => {
-        let array = null
-        if (this.state.newData !== "a" ) {
-            const record_type = {
-                weight: "recordWeight",
-                reps: "recordReps"
-            }
+    // let chartData = () => {
+    //     let array = null
+    //     if (this.state.newData !== "a" ) {
+    //         const record_type = {
+    //             weight: "recordWeight",
+    //             reps: "recordReps"
+    //         }
 
-            const xAxisTypes = {
-              'age': 'userBday',
-              'weight': 'userBodyWeight',
-              'height': 'userHeight'
-            }
-            array = this.state.newData.category_chart_data.map(obj => {
-                let newObj = Object.assign({}, obj)
-                newObj.y = newObj[record_type[`${obj.recordType}`]]
-                newObj.x = newObj[xAxisTypes[this.state.xAxis]]
-                if (xAxisTypes[this.state.xAxis] === 'userBday') {
-                  newObj.x = parseInt(moment().diff(newObj.x, 'years')) 
-                }
-                return newObj
-            })
-            // filter the data points based on gender e.g. male / female 
-            if (this.state.filterGender !== '') {
-              array = array.filter(obj => obj.userGender === this.state.filterGender)
-            }
+    //         const xAxisTypes = {
+    //           'age': 'userBday',
+    //           'weight': 'userBodyWeight',
+    //           'height': 'userHeight'
+    //         }
+    //         array = this.state.newData.category_chart_data.map(obj => {
+    //             let newObj = Object.assign({}, obj)
+    //             newObj.y = newObj[record_type[`${obj.recordType}`]]
+    //             newObj.x = newObj[xAxisTypes[this.state.xAxis]]
+    //             if (xAxisTypes[this.state.xAxis] === 'userBday') {
+    //               newObj.x = parseInt(moment().diff(newObj.x, 'years')) 
+    //             }
+    //             return newObj
+    //         })
+    //         // filter the data points based on gender e.g. male / female 
+    //         if (this.state.filterGender !== '') {
+    //           array = array.filter(obj => obj.userGender === this.state.filterGender)
+    //         }
+    //     }
+    //     return array
+    // }
+    let chartData = () => {
+      // debugger;
+        let array = null
+        // if (this.state.newData !== "a" ) {
+
+        const categoryCode = {
+          "1": "Turkish Get-Up",
+          "2": "Jump Rope",
+          "3": "Pull-Ups",
+          "4": "Chin-Ups",
+          "5": "Push-Ups",
+          "6": "Farmer-Carry: Time Carrying",
+          "7": "Simple and Sinister"
         }
+
+        const record_type = {
+            weight: "recordWeight",
+            reps: "reps"
+        }
+
+        // const xAxisTypes = {
+        //   'age': 'userBday',
+        //   'weight': 'userBodyWeight',
+        //   'height': 'userHeight'
+        // }
+        array = this.props.userData.user_records[categoryCode[this.props.prCategoryID]].map(obj => {
+            let newObj = Object.assign({}, obj)
+            newObj.y = newObj[obj.weight_reps_or_time_based]
+            newObj.x = new Date(newObj.date);
+            return newObj
+        })
+        // filter the data points based on gender e.g. male / female 
+
+        // }
         return array
     }
+    // console.log(chartData())
 
     const chartSize = window.innerWidth * 0.50
 
@@ -166,17 +198,22 @@ class CategoryChartt extends Component{
         <Card className='myCard'>
           <CardHeader title={this.state.categoryTitle} classes={{ content: 'centerTitle' }}/>
 
-          <XYPlot height={chartSize} width={chartSize}>
+          <XYPlot height={chartSize} width={chartSize} xType='time'>
             <VerticalGridLines />
             <HorizontalGridLines />
-            <XAxis title={axisLabels.xAxisLabels[this.state.xAxis]}/>
+            <XAxis 
+              title="Date of Record"
+              tickLabelAngle={-45}
+              tickFormat={v => moment(v).format('MM/DD/YY')}
+              tickSize={-1}
+            />
             <YAxis title={axisLabels.yAxisLabels[this.state.yAxis]}/>
             <MarkSeries 
                 animation={true}
                 opacityType={'literal'}
                 colorType='literal'
                 strokeType='literal'
-                data={chartData() !== null ? chartData() : [{x:0,y:0}] }
+                data={this.state.propDataLoaded === true ? chartData() : [{x:0,y:0}] }
                 className="mark-series-example"
                 strokeWidth={2}
                 opacity="0.7"
@@ -184,19 +221,12 @@ class CategoryChartt extends Component{
                 onNearestXY={value => this.setState({hintData: this.filterHintData(value)})}
             />
             {this.state.hintData ? <Hint value={this.state.hintData} /> : null}
-            {/* <Hint value={dataPoint} /> */}
           </XYPlot>
 
-          <CardActions classes={{root: 'cardActionButtons'}}>
-              {/* <Button size="small" color="primary">
-                  Add Turkish Getup PR
-              </Button>
-              <Button size="small" color="primary">
-                  View Record
-              </Button> */}
+          {/* <CardActions classes={{root: 'cardActionButtons'}}>
             <form className={classes.root} autoComplete='off'>
               <FormControl className={classes.formControl}>
-                {/* <InputLabel htmlFor="age-simple">X Axis:</InputLabel> */}
+                <InputLabel htmlFor="age-simple">X Axis:</InputLabel>
                 <Select
                   value={this.state.xAxis}
                   onChange={this.handleChangeXAxis}
@@ -205,17 +235,13 @@ class CategoryChartt extends Component{
                     id: 'age-simple',
                   }}
                 >
-                  {/* <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem> */}
                   <MenuItem value={'age'}>Age</MenuItem>
                   <MenuItem value={'weight'}>Weight</MenuItem>
                   <MenuItem value={'height'}>Height</MenuItem>
                 </Select>
-                <FormHelperText>Change X Axis Category</FormHelperText>
               </FormControl>
               <FormControl className={classes.formControl}>
-                {/* <InputLabel htmlFor="age-simple">Filter M/F:</InputLabel> */}
+                <InputLabel htmlFor="age-simple">Filter M/F:</InputLabel>
                 <Select
                   value={this.state.filterGender}
                   onChange={this.handleChangeFilterGender}
@@ -225,17 +251,15 @@ class CategoryChartt extends Component{
                   }}
                 >
                   <MenuItem value="">
-                    Both
-                    {/* <em>None</em> */}
+                    <em>None</em>
                   </MenuItem>
                   <MenuItem value={'f'}>Female</MenuItem>
                   <MenuItem value={'m'}>Male</MenuItem>
                 </Select>
-                <FormHelperText>Filter by Females or Males</FormHelperText>
               </FormControl>
             </form>
 
-          </CardActions>
+          </CardActions> */}
         </Card>
 
 
@@ -244,8 +268,8 @@ class CategoryChartt extends Component{
   }
 }
 
-CategoryChartt.propTypes = {
+CategoryChartPersonal.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CategoryChartt);
+export default withStyles(styles)(CategoryChartPersonal);

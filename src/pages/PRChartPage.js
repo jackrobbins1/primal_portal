@@ -20,6 +20,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 // my components
 
 import CategoryChartt from '../components/CategoryChartt'
+import CategoryChartPersonal from '../components/CategoryChartPersonal'
 
 
 
@@ -91,7 +92,7 @@ class PRChartPage extends Component {
                     <em>None</em>
                     </MenuItem>
                     <MenuItem value={1}>Turkish Getup</MenuItem>
-                    <MenuItem value={2}>Jump Roap: Double Under</MenuItem>
+                    <MenuItem value={2}>Jump Rope: Double Under</MenuItem>
                     <MenuItem value={3}>Pull-Ups</MenuItem>
                     <MenuItem value={4}>Chin-Ups</MenuItem>
                     <MenuItem value={5}>Push-Ups</MenuItem>
@@ -103,25 +104,15 @@ class PRChartPage extends Component {
 
             <h5>All CPG Members</h5>
             <CategoryChartt
-             prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}
-             
+              prCategoryID={this.state.prCategoryID}
+            //  prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}
              />
 
-
-            {/* <Card className='myCard'>
-                <CardHeader title='Turkish Getup Records' classes={{ content: 'centerTitle' }}/>
-
-                <CategoryChartt prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}/>
-
-                <CardActions classes={{root: 'cardActionButtons'}}>
-                    <Button size="small" color="primary">
-                        Add Turkish Getup PR
-                    </Button>
-                    <Button size="small" color="primary">
-                        View Record
-                    </Button>
-                </CardActions>
-            </Card> */}
+            <h5>My Personal Records</h5>
+            <CategoryChartPersonal 
+              userData={this.props.userData}
+              prCategoryID={this.state.prCategoryID}
+            />
         </div>
       
     );

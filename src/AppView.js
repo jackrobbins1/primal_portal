@@ -52,8 +52,7 @@ class AppView extends Component{
                 <div>
                     <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
                     <Route exact path="/my_personal_records" component={() => <MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />}  />
-                    {/* <Route exact path="/pr_chart_page/:catId" component={() => <PRChartPage />} /> */}
-                    <Route exact path="/pr_chart_page/:catId" component={PRChartPage}/>
+                    <Route exact path="/pr_chart_page/:catId" component={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} />)}/>
                 </div>
             </Router>
 
