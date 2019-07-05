@@ -102,7 +102,10 @@ class PRChartPage extends Component {
             </div>
 
             <h5>All CPG Members</h5>
-            <CategoryChartt prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}/>
+            <CategoryChartt
+             prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}
+             
+             />
 
 
             {/* <Card className='myCard'>

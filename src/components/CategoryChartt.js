@@ -36,9 +36,11 @@ const styles = theme => ({
 
 class CategoryChartt extends Component{
   state = {
-      newData: "a",
-      hintData: false,
-      categoryTitle: undefined,
+    newData: "a",
+    hintData: false,
+    categoryTitle: undefined,
+    xAxis: 'age',
+    yAxis: 'weight'
   }
 
   // componentDidMount() {
@@ -53,7 +55,11 @@ class CategoryChartt extends Component{
     fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`)
     .then(resp => resp.json())
     .then(data => {
-      this.setState({newData: data})
+      this.setState({
+        newData: data,
+        categoryTitle: data.category_info.name,
+        yAxis: data.category_chart_data[0].recordType
+      })
     })
   }
 
@@ -83,10 +89,31 @@ class CategoryChartt extends Component{
     return str.join(" ");
   }
 
+  handleChangeXAxis = event => {
+    this.setState({xAxis: event.target.value})
+  }
+
+  // handleChange = event => {
+  //   this.setState({ prCategoryID: event.target.value });
+  // };
+
 
   render() {
 
     const { classes } = this.props;
+
+    const axisLabels = {
+      yAxisLabels: {
+        "weight": "Weight (kg)",
+        "reps": "Reps",
+        "time": "Time (mm:ss)"
+      },
+      xAxisLabels: {
+        "weight": "Member weight (lbs)",
+        "age": "Member Age (years)",
+        "height": "Member height (inches)"
+      }
+    }
 
     let chartData = () => {
         let array = null
@@ -95,10 +122,16 @@ class CategoryChartt extends Component{
                 weight: "recordWeight",
                 reps: "recordReps"
             }
+
+            const xAxisTypes = {
+              'age': 'userBday',
+              'weight': 'userBodyWeight',
+              'height': 'userHeight'
+            }
             array = this.state.newData.category_chart_data.map(obj => {
                 let newObj = Object.assign({}, obj)
                 newObj.y = newObj[record_type[`${obj.recordType}`]]
-                newObj.x = newObj.userBodyWeight
+                newObj.x = newObj[xAxisTypes[this.state.xAxis]]
                 return newObj
             })
         }
@@ -111,13 +144,13 @@ class CategoryChartt extends Component{
     return (
       <div>
         <Card className='myCard'>
-          <CardHeader title='Turkish Getup Records' classes={{ content: 'centerTitle' }}/>
+          <CardHeader title={this.state.categoryTitle} classes={{ content: 'centerTitle' }}/>
 
           <XYPlot height={chartSize} width={chartSize}>
             <VerticalGridLines />
             <HorizontalGridLines />
-            <XAxis />
-            <YAxis />
+            <XAxis title={axisLabels.xAxisLabels[this.state.xAxis]}/>
+            <YAxis title={axisLabels.yAxisLabels[this.state.yAxis]}/>
             <MarkSeries 
                 animation={true}
                 opacityType={'literal'}
@@ -145,22 +178,22 @@ class CategoryChartt extends Component{
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="age-simple">X Axis:</InputLabel>
                 <Select
-                  value={this.state.age}
-                  onChange={this.handleChange}
+                  value={this.state.xAxis}
+                  onChange={this.handleChangeXAxis}
                   inputProps={{
                     name: 'age',
                     id: 'age-simple',
                   }}
                 >
-                  <MenuItem value="">
+                  {/* <MenuItem value="">
                     <em>None</em>
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem value={'age'}>Age</MenuItem>
                   <MenuItem value={'weight'}>Weight</MenuItem>
                   <MenuItem value={'height'}>Height</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl className={classes.formControl}>
+              {/* <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="age-simple">X Axis:</InputLabel>
                 <Select
                   value={this.state.age}
@@ -177,7 +210,7 @@ class CategoryChartt extends Component{
                   <MenuItem value={'weight'}>Weight</MenuItem>
                   <MenuItem value={'height'}>Height</MenuItem>
                 </Select>
-              </FormControl>
+              </FormControl> */}
             </form>
 
           </CardActions>
