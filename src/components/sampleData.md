@@ -1,0 +1,40 @@
+{
+    color:
+    "#45ebf3"
+    recordDate:
+    "2019-06-06"
+    recordReps:
+    28
+    recordType:
+    "reps"
+    recordWeight:
+    null
+    stroke:
+    "#643a4e"
+    userBday:
+    "1981-02-15"
+    userBodyWeight:
+    133.5
+    userFatPerc:
+    0.22
+    userFirstName:
+    "Numbers"
+    userGender:
+    "m"
+    userHeight:
+    64
+    
+    userIsParent:
+    true
+    userLastName:
+    "Senger"
+    userMusclePerc:
+    0.34
+    userPseudo:
+    "admiring oyster"
+    x:
+    null
+    y:
+    null
+
+}

@@ -44,7 +44,7 @@ class CategoryChartt extends Component{
     categoryTitle: undefined,
     xAxis: 'age',
     yAxis: 'weight',
-    filterGender: ''
+    filterGender: 'both'
   }
 
   // componentDidMount() {
@@ -152,7 +152,7 @@ class CategoryChartt extends Component{
                 return newObj
             })
             // filter the data points based on gender e.g. male / female 
-            if (this.state.filterGender !== '') {
+            if (this.state.filterGender !== 'both') {
               array = array.filter(obj => obj.userGender === this.state.filterGender)
             }
         }
@@ -224,14 +224,14 @@ class CategoryChartt extends Component{
                     id: 'age-simple',
                   }}
                 >
-                  <MenuItem value="">
+                  <MenuItem value={'both'}>
                     Both
                     {/* <em>None</em> */}
                   </MenuItem>
-                  <MenuItem value={'f'}>Female</MenuItem>
-                  <MenuItem value={'m'}>Male</MenuItem>
+                  <MenuItem value={'m'}>Men</MenuItem>
+                  <MenuItem value={'f'}>Women</MenuItem>
                 </Select>
-                <FormHelperText>Filter by Females or Males</FormHelperText>
+                <FormHelperText>Show Men or Women</FormHelperText>
               </FormControl>
             </form>
 

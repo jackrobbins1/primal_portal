@@ -63,27 +63,32 @@ class CategoryChartPersonal extends Component{
   }
 
   filterHintData = data => {
-
-    const record_type = {
-      weight: "recordWeight",
-      reps: "recordReps"
+    const recordUnits = {
+      weight: "kg",
+      reps: "reps",
+      time: "min:sec"
     }
 
-    const xAxisTypes = {
-      'age': 'userBday',
-      'weight': 'userBodyWeight',
-      'height': 'userHeight'
-    }
+    // const xAxisTypes = {
+    //   'age': 'userBday',
+    //   'weight': 'userBodyWeight',
+    //   'height': 'userHeight'
+    // }
+
+    const loggedInUser = this.props.userData.user_info
+
     let newData = {
         // User: this.capital_letter(data.userPseudo),
-        User: data.userPseudo,
-        x: data[xAxisTypes[this.state.xAxis]],
-        y: data[record_type[`${data.recordType}`]],
+        x: data.x,
+        y: data.y,
+        user: `${loggedInUser.first_name} ${loggedInUser.last_name}`,
+        date: moment(data.date, 'YYYY-MM-DD').format('MM-DD-YYYY'),
+        record: data[`${data.weight_reps_or_time_based}`] + ` ${recordUnits[data.weight_reps_or_time_based]}`
     }
 
-    if(this.state.xAxis === 'age') {
-      newData.x = parseInt(moment().diff(newData.x, 'years'))
-    }
+    // if(this.state.xAxis === 'age') {
+    //   newData.x = parseInt(moment().diff(newData.x, 'years'))
+    // }
 
     return newData
   }
@@ -179,10 +184,12 @@ class CategoryChartPersonal extends Component{
         //   'height': 'userHeight'
         // }
         array = this.props.userData.user_records[categoryCode[this.props.prCategoryID]].map(obj => {
-            let newObj = Object.assign({}, obj)
-            newObj.y = newObj[obj.weight_reps_or_time_based]
-            newObj.x = new Date(newObj.date);
-            return newObj
+          let newObj = Object.assign({}, obj)
+          newObj.y = newObj[obj.weight_reps_or_time_based]
+          newObj.x = new Date(newObj.date);
+          newObj.color = this.props.userData.user_info.primary_color
+          newObj.stroke = this.props.userData.user_info.secondary_color
+          return newObj
         })
         // filter the data points based on gender e.g. male / female 
 
@@ -192,6 +199,33 @@ class CategoryChartPersonal extends Component{
     // console.log(chartData())
 
     const chartSize = window.innerWidth * 0.50
+
+    let customHint = () => {
+      const hintData = this.state.hintData
+
+      // return (<Hint value={hintData}>
+      //           <div style={{background: 'black'}}>
+      //             <h3>{`${hintData.user}`}</h3>
+      //             <p>Date:{` ${hintData.date}`}</p>
+      //             <p>Record:{` ${hintData.record}`}</p>
+      //           </div>
+      //         </Hint>)
+      return (<Hint value={hintData}>
+                <div className="rv-hint__content">
+                  <h2 className="myHintTitle">{`${hintData.user}`}</h2>
+                  <div>
+                    <span className="rv-hint__title">Date:</span>
+                    {': '}
+                    <span className="rv-hint__value">{hintData.date}</span>
+                  </div>
+                  <div>
+                    <span className="rv-hint__title">Record:</span>
+                    {': '}
+                    <span className="rv-hint__value">{hintData.record}</span>
+                  </div>
+                </div>
+              </Hint>)
+    }
 
     return (
       <div>
@@ -220,7 +254,8 @@ class CategoryChartPersonal extends Component{
                 sizeRange={[5, 30]}
                 onNearestXY={value => this.setState({hintData: this.filterHintData(value)})}
             />
-            {this.state.hintData ? <Hint value={this.state.hintData} /> : null}
+            {/* {this.state.hintData ? <Hint value={this.state.hintData} /> : null} */}
+            {this.state.hintData ? customHint() : null}
           </XYPlot>
 
           {/* <CardActions classes={{root: 'cardActionButtons'}}>
