@@ -1,3 +1,5 @@
+
+for category chartt:
 {
     color:
     "#45ebf3"
@@ -38,3 +40,39 @@
     null
 
 }
+
+for personal category chart:
+
+{
+    created_at:
+    "2019-06-28T21:02:54.657Z"
+    date:
+    "2019-01-01"
+    event_name:
+    "Pull-Ups"
+    id:
+    4781
+    pr_category_id:
+    3
+    reps:
+    14
+    time_length:
+    null
+    updated_at:
+    "2019-06-28T21:02:54.657Z"
+    user_id:
+    59
+    weight:
+    null
+    weight_reps_or_time_based:
+    "reps"
+}
+
+    let newData = {
+        // User: this.capital_letter(data.userPseudo),
+        x: data.x,
+        y: data.y,
+        user: `${loggedInUser.first_name} ${loggedInUser.last_name}`,
+        date: moment(data.date, 'YYYY-MM-DD').format('MM-DD-YYYY'),
+        record: data[`${data.weight_reps_or_time_based}`] + ` ${recordUnits.data.weight_reps_or_time_based}`
+    }

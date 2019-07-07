@@ -36,7 +36,7 @@ const styles = theme => ({
   },
 });
 
-class CategoryChartPersonal extends Component{
+class WeightChart extends Component{
   state = {
     propDataLoaded: false,
     newData: "a",
@@ -68,12 +68,6 @@ class CategoryChartPersonal extends Component{
       time: "min:sec"
     }
 
-    // const xAxisTypes = {
-    //   'age': 'userBday',
-    //   'weight': 'userBodyWeight',
-    //   'height': 'userHeight'
-    // }
-
     const loggedInUser = this.props.userData.user_info
 
     let newData = {
@@ -84,10 +78,6 @@ class CategoryChartPersonal extends Component{
         date: moment(data.date, 'YYYY-MM-DD').format('MM-DD-YYYY'),
         record: data[`${data.weight_reps_or_time_based}`] + ` ${recordUnits[data.weight_reps_or_time_based]}`
     }
-
-    // if(this.state.xAxis === 'age') {
-    //   newData.x = parseInt(moment().diff(newData.x, 'years'))
-    // }
 
     return newData
   }
@@ -100,10 +90,6 @@ class CategoryChartPersonal extends Component{
     }
 
     return str.join(" ");
-  }
-
-  handleChangeXAxis = event => {
-    this.setState({xAxis: event.target.value})
   }
 
   handleChangeFilterGender = event => {
@@ -160,32 +146,18 @@ class CategoryChartPersonal extends Component{
     let chartData = () => {
       // debugger;
         let array = null
-        // if (this.state.newData !== "a" ) {
 
-        const categoryCode = {
-          "1": "Turkish Get-Up",
-          "2": "Jump Rope",
-          "3": "Pull-Ups",
-          "4": "Chin-Ups",
-          "5": "Push-Ups",
-          "6": "Farmer-Carry: Time Carrying",
-          "7": "Simple and Sinister"
+        const yAxisTypes = {
+          'age': 'userBday',
+          'weight': 'userBodyWeight',
+          'height': 'userHeight'
         }
 
-        const record_type = {
-            weight: "recordWeight",
-            reps: "reps"
-        }
-
-        // const xAxisTypes = {
-        //   'age': 'userBday',
-        //   'weight': 'userBodyWeight',
-        //   'height': 'userHeight'
-        // }
-        array = this.props.userData.user_records[categoryCode[this.props.prCategoryID]].map(obj => {
+        array = this.props.userData.weight_info.map(obj => {
           let newObj = Object.assign({}, obj)
-          newObj.y = newObj[obj.weight_reps_or_time_based]
-          newObj.x = new Date(newObj.date);
+          // newObj.y = newObj[obj.weight_reps_or_time_based]
+          newObj.y = newObj.weight_lb
+          newObj.x = new Date(newObj.weigh_date);
           newObj.color = this.props.userData.user_info.primary_color
           newObj.stroke = this.props.userData.user_info.secondary_color
           return newObj
@@ -202,6 +174,13 @@ class CategoryChartPersonal extends Component{
     let customHint = () => {
       const hintData = this.state.hintData
 
+      // return (<Hint value={hintData}>
+      //           <div style={{background: 'black'}}>
+      //             <h3>{`${hintData.user}`}</h3>
+      //             <p>Date:{` ${hintData.date}`}</p>
+      //             <p>Record:{` ${hintData.record}`}</p>
+      //           </div>
+      //         </Hint>)
       return (<Hint value={hintData}>
                 <div className="rv-hint__content">
                   <h2 className="myHintTitle">{`${hintData.user}`}</h2>
@@ -296,8 +275,8 @@ class CategoryChartPersonal extends Component{
   }
 }
 
-CategoryChartPersonal.propTypes = {
+WeightChart.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CategoryChartPersonal);
+export default withStyles(styles)(WeightChart);

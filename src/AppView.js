@@ -19,6 +19,7 @@ import HomePage from './pages/HomePage'
 import MyPRsPage from './pages/MyPRsPage';
 import PRChartPage from './pages/PRChartPage'
 import PRChartPagee from './pages/PRChartPagee'
+import MyWeightsPage from './pages/MyWeightsPage';
 
 class AppView extends Component{
     state = {
@@ -51,8 +52,9 @@ class AppView extends Component{
                 <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
                 <div>
                     <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
-                    <Route exact path="/my_personal_records" component={() => <MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />}  />
-                    <Route exact path="/pr_chart_page/:catId" component={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} />)}/>
+                    <Route exact path="/my_personal_records" render={() => (<MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />)}  />
+                    <Route exact path="/pr_chart_page/:catId" render={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} />)}/>
+                    <Route exact path="/my_weight_records" render={() => (<MyWeightsPage userData={this.state.userData} />)}  />
                 </div>
             </Router>
 

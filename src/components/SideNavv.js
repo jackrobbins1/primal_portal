@@ -61,7 +61,7 @@ class SideNavv extends Component {
               <ListItemIcon><Person /></ListItemIcon>
               <ListItemText primary={'Account Settings'}/>
             </ListItem>
-            <ListItem button>
+            <ListItem button key="My Weight Records" component={Link} to="/my_weight_records">
               <ListItemIcon ><AssignmentTurnedIn /></ListItemIcon>
               <ListItemText primary={'Record Weight'}/>
             </ListItem>
