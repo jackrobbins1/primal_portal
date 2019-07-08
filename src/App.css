@@ -52,6 +52,10 @@
   align-items: center;
 }
 
+.myDivider {
+  width: 100%;
+}
+
 .myCard {
   max-Width: 90%;
   width: 70vw;
@@ -78,10 +82,28 @@
   min-width: 120px;
 }
 
-/* Category Chart Styles */
-
 .myHintTitle {
   margin-block-start: 0;
   margin-block-end: 0;
   font-size: 14px;
 }
+
+/* End Category Chart Styles */
+
+/* Account Page Styles */
+.switchLabel{
+  font-size: 12px !important;
+  text-align: center;
+}
+
+.mySwitch {
+  margin: auto;
+}
+
+  /* Color Picker */
+  .colorContainer {
+    display: flex;
+  }
+  /* End Color Picker */
+
+/* End Account Page Styles */

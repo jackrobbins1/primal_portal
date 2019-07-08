@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import PRCategoryList from '../components/PRCategoryList'
+import ColorPicker from '../components/ColorPicker'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,11 +19,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
     root: {
@@ -54,7 +57,7 @@ class AccountPage extends PureComponent{
     return (
       <div className="centerContainer">
 
-        <h5>My Account</h5>
+        <h2>My Account</h2>
 
         <List className={classes.root}>
             <ListItem>
@@ -111,12 +114,50 @@ class AccountPage extends PureComponent{
             </ListItem>
         </List>
 
-        {/* <Divider variant="middle" /> */}
+        <Divider className="myDivider" />
 
-        
+        <h3>Personal Record Settings</h3>
 
-
-
+        <List className={classes.root}>
+            <ListItem>
+                <FormControl className={classes.formControl} variant="outlined">
+                    <InputLabel
+                        ref={ref => {
+                        this.labelRef = ReactDOM.findDOMNode(ref);
+                        }}
+                        htmlFor="component-outlined"
+                    >
+                        Nickname
+                    </InputLabel>
+                    <OutlinedInput
+                        id="component-outlined"
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                        labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                    />
+                </FormControl>
+                <FormControl component="fieldset">
+                    {/* <FormLabel component="legend">Show nickname on charts instead of full name?</FormLabel> */}
+                    <FormLabel className="switchLabel">Show nickname on charts instead of full name?</FormLabel>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                            className="mySwitch"
+                            checked={this.state.checkedB}
+                            // onChange={this.handleChange('checkedB')}
+                            value="checkedB"
+                            color="primary"
+                            />
+                        }
+   
+                    />
+                </FormControl>
+            </ListItem>
+            <ListItem>
+                <ColorPicker />
+            </ListItem>
+        </List>
+        <ColorPicker />
       </div>
     )
   }
