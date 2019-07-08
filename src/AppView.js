@@ -20,6 +20,7 @@ import MyPRsPage from './pages/MyPRsPage';
 import PRChartPage from './pages/PRChartPage'
 import PRChartPagee from './pages/PRChartPagee'
 import MyWeightsPage from './pages/MyWeightsPage';
+import AccountPage from './pages/AccountPage';
 
 class AppView extends Component{
     state = {
@@ -55,6 +56,7 @@ class AppView extends Component{
                     <Route exact path="/my_personal_records" render={() => (<MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />)}  />
                     <Route exact path="/pr_chart_page/:catId" render={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} />)}/>
                     <Route exact path="/my_weight_records" render={() => (<MyWeightsPage userData={this.state.userData} />)}  />
+                    <Route exact path="/my_account" render={() => (<AccountPage userData={this.state.userData} />)}  />
                 </div>
             </Router>
 

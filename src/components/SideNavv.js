@@ -57,7 +57,7 @@ class SideNavv extends Component {
               <ListItemIcon><InsertChart /></ListItemIcon>
               <ListItemText primary={'Personal Records'} />           
             </ListItem>
-            <ListItem button>
+            <ListItem button key="My Account" component={Link} to="/my_account">
               <ListItemIcon><Person /></ListItemIcon>
               <ListItemText primary={'Account Settings'}/>
             </ListItem>

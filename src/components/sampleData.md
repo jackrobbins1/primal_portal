@@ -76,3 +76,22 @@ for personal category chart:
         date: moment(data.date, 'YYYY-MM-DD').format('MM-DD-YYYY'),
         record: data[`${data.weight_reps_or_time_based}`] + ` ${recordUnits.data.weight_reps_or_time_based}`
     }
+
+weight records = {
+    body_fat_perc:
+    0.1
+    body_muscle_perc:
+    0.41
+    created_at:
+    "2019-06-27T18:32:00.127Z"
+    id:
+    590
+    updated_at:
+    "2019-06-27T18:32:00.127Z"
+    user_id:
+    59
+    weigh_date:
+    "2019-05-02"
+    weight_lb:
+    148.5
+}

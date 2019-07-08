@@ -47,25 +47,25 @@ class WeightChart extends Component{
     filterGender: ''
   }
 
-  // componentDidMount() {
-  //     fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`)
-  //     .then(resp => resp.json())
-  //     .then(data => {
-  //         this.setState({newData: data})
-  //     })
-  // }
+  componentDidMount() {
+    if (this.props.userData) {
+      this.setState({propDataLoaded: true})
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userData !== undefined) {
+    if (nextProps.userData) {
       this.setState({propDataLoaded: true})
     }
   }
 
   filterHintData = data => {
+    // debugger;
+
     const recordUnits = {
-      weight: "kg",
-      reps: "reps",
-      time: "min:sec"
+      'weight': 'lbs',
+      'fatPerc': '%',
+      'muscPerc': '%'
     }
 
     const loggedInUser = this.props.userData.user_info
@@ -74,9 +74,13 @@ class WeightChart extends Component{
         // User: this.capital_letter(data.userPseudo),
         x: data.x,
         y: data.y,
-        user: `${loggedInUser.first_name} ${loggedInUser.last_name}`,
-        date: moment(data.date, 'YYYY-MM-DD').format('MM-DD-YYYY'),
-        record: data[`${data.weight_reps_or_time_based}`] + ` ${recordUnits[data.weight_reps_or_time_based]}`
+        // user: `${loggedInUser.first_name} ${loggedInUser.last_name}`,
+        date: moment(data.weigh_date, 'YYYY-MM-DD').format('MM-DD-YYYY'),
+        record: data.y + ` ${recordUnits[this.state.yAxis]}`
+    }
+
+    if (this.state.yAxis !== 'weight') {
+      newData.record = (data.y * 100).toFixed(0) + `${recordUnits[this.state.yAxis]}`
     }
 
     return newData
@@ -95,6 +99,9 @@ class WeightChart extends Component{
   handleChangeFilterGender = event => {
     this.setState({filterGender: event.target.value})
   }
+  handleChangeYAxis = event => {
+    this.setState({yAxis: event.target.value})
+  }
 
 
   render() {
@@ -103,9 +110,9 @@ class WeightChart extends Component{
 
     const axisLabels = {
       yAxisLabels: {
-        "weight": "Weight (kg)",
-        "reps": "Reps",
-        "time": "Time (mm:ss)"
+        'weight': 'Weight (lbs)',
+        'fatPerc': 'Body Fat Percent',
+        'muscPerc': 'Body Muscle Percent'
       },
       xAxisLabels: {
         "weight": "Member weight (lbs)",
@@ -145,27 +152,26 @@ class WeightChart extends Component{
     // }
     let chartData = () => {
       // debugger;
-        let array = null
+      let array = null
 
-        const yAxisTypes = {
-          'age': 'userBday',
-          'weight': 'userBodyWeight',
-          'height': 'userHeight'
-        }
+      const yAxisTypes = {
+        'weight': 'weight_lb',
+        'fatPerc': 'body_fat_perc',
+        'muscPerc': 'body_muscle_perc'
+      }
 
-        array = this.props.userData.weight_info.map(obj => {
-          let newObj = Object.assign({}, obj)
-          // newObj.y = newObj[obj.weight_reps_or_time_based]
-          newObj.y = newObj.weight_lb
-          newObj.x = new Date(newObj.weigh_date);
-          newObj.color = this.props.userData.user_info.primary_color
-          newObj.stroke = this.props.userData.user_info.secondary_color
-          return newObj
-        })
-        // filter the data points based on gender e.g. male / female 
+      array = this.props.userData.weight_info.map(obj => {
+        let newObj = Object.assign({}, obj)
+        newObj.y = newObj[yAxisTypes[this.state.yAxis]]
+        newObj.x = new Date(newObj.weigh_date);
+        newObj.color = this.props.userData.user_info.primary_color
+        newObj.stroke = this.props.userData.user_info.secondary_color
+        return newObj
+      })
+      // filter the data points based on gender e.g. male / female 
 
-        // }
-        return array
+      // }
+      return array
     }
     // console.log(chartData())
 
@@ -174,23 +180,16 @@ class WeightChart extends Component{
     let customHint = () => {
       const hintData = this.state.hintData
 
-      // return (<Hint value={hintData}>
-      //           <div style={{background: 'black'}}>
-      //             <h3>{`${hintData.user}`}</h3>
-      //             <p>Date:{` ${hintData.date}`}</p>
-      //             <p>Record:{` ${hintData.record}`}</p>
-      //           </div>
-      //         </Hint>)
       return (<Hint value={hintData}>
                 <div className="rv-hint__content">
-                  <h2 className="myHintTitle">{`${hintData.user}`}</h2>
+                  {/* <h2 className="myHintTitle">{`${hintData.user}`}</h2> */}
                   <div>
-                    <span className="rv-hint__title">Date:</span>
+                    <span className="rv-hint__title">Date</span>
                     {': '}
                     <span className="rv-hint__value">{hintData.date}</span>
                   </div>
                   <div>
-                    <span className="rv-hint__title">Record:</span>
+                    <span className="rv-hint__title">Record</span>
                     {': '}
                     <span className="rv-hint__value">{hintData.record}</span>
                   </div>
@@ -230,24 +229,24 @@ class WeightChart extends Component{
             {this.state.hintData ? customHint() : null}
           </XYPlot>
 
-          {/* <CardActions classes={{root: 'cardActionButtons'}}>
+          <CardActions classes={{root: 'cardActionButtons'}}>
             <form className={classes.root} autoComplete='off'>
               <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-simple">X Axis:</InputLabel>
+                <InputLabel htmlFor="age-simple">Y Axis:</InputLabel>
                 <Select
-                  value={this.state.xAxis}
-                  onChange={this.handleChangeXAxis}
+                  value={this.state.yAxis}
+                  onChange={this.handleChangeYAxis}
                   inputProps={{
                     name: 'age',
                     id: 'age-simple',
                   }}
                 >
-                  <MenuItem value={'age'}>Age</MenuItem>
-                  <MenuItem value={'weight'}>Weight</MenuItem>
-                  <MenuItem value={'height'}>Height</MenuItem>
+                  <MenuItem value={'weight'}>Weight (lbs)</MenuItem>
+                  <MenuItem value={'fatPerc'}>Body Fat Percent</MenuItem>
+                  <MenuItem value={'muscPerc'}>Body Muscle Percent</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl className={classes.formControl}>
+              {/* <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="age-simple">Filter M/F:</InputLabel>
                 <Select
                   value={this.state.filterGender}
@@ -263,10 +262,10 @@ class WeightChart extends Component{
                   <MenuItem value={'f'}>Female</MenuItem>
                   <MenuItem value={'m'}>Male</MenuItem>
                 </Select>
-              </FormControl>
+              </FormControl> */}
             </form>
 
-          </CardActions> */}
+          </CardActions>
         </Card>
 
 

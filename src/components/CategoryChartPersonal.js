@@ -206,12 +206,12 @@ class CategoryChartPersonal extends Component{
                 <div className="rv-hint__content">
                   <h2 className="myHintTitle">{`${hintData.user}`}</h2>
                   <div>
-                    <span className="rv-hint__title">Date:</span>
+                    <span className="rv-hint__title">Date</span>
                     {': '}
                     <span className="rv-hint__value">{hintData.date}</span>
                   </div>
                   <div>
-                    <span className="rv-hint__title">Record:</span>
+                    <span className="rv-hint__title">Record</span>
                     {': '}
                     <span className="rv-hint__value">{hintData.record}</span>
                   </div>
