@@ -33,6 +33,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 
+const moment = require('moment');
+
 const styles = theme => ({
     root: {
         width: '100%',
@@ -54,8 +56,38 @@ class AccountPage extends PureComponent{
   constructor(props) {
     super(props)
     this.state = {
-      userData: props.userData
+      userData: props.userData,
+      showNickName: true,
     }
+  }
+
+  handleUserInput = event => {
+      this.setState({
+          [event.target.name]: event.target.value
+      })
+  }
+
+  handleSwitchInput = event => {
+      const myValue = {
+          'true': false,
+          'false': true
+      }
+      this.setState({
+        [event.target.name]: myValue[event.target.value]
+      })
+  }
+
+  handleColorChange = (colorHex, inputType) => {
+    this.setState({
+        [inputType]: colorHex
+    })
+  }
+
+  handleDateChange = date => {
+      debugger;
+      this.setState({
+          birthday: moment(date).format("YYYY-MM-DD")
+      })
   }
 
   render() {
@@ -80,8 +112,9 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={this.state.userName}
+                        name="userName"
+                        onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
                 </FormControl>
@@ -98,8 +131,9 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={this.state.firstName}
+                        name="firstName"
+                        onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
                 </FormControl>
@@ -114,8 +148,9 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={this.state.lastName}
+                        name="lastName"
+                        onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
                 </FormControl>
@@ -139,8 +174,9 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={this.state.nickName}
+                        name="nickName"
+                        onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
                 </FormControl>
@@ -151,9 +187,10 @@ class AccountPage extends PureComponent{
                         control={
                             <Switch
                             className="mySwitch"
-                            checked={this.state.checkedB}
-                            // onChange={this.handleChange('checkedB')}
-                            value="checkedB"
+                            name="showNickName"
+                            checked={this.state.showNickName}
+                            onChange={this.handleSwitchInput}
+                            value={this.state.showNickName}
                             color="primary"
                             />
                         }
@@ -163,11 +200,11 @@ class AccountPage extends PureComponent{
             </ListItem>
             <div className="myLabelFont">Data Point Primary Color:</div>
             <ListItem>
-                <ColorPicker />
+                <ColorPicker type="primaryColor" handleColorChange={this.handleColorChange} />
             </ListItem>
             <div className="myLabelFont">Data Point Secondary Color:</div>
             <ListItem>
-                <ColorPicker />
+                <ColorPicker type="secondaryColor" handleColorChange={this.handleColorChange} />
             </ListItem>
 
         </List>
@@ -183,7 +220,7 @@ class AccountPage extends PureComponent{
                     <DatePicker
                         margin="normal"
                         label="Birthday"
-                        // value={selectedDate}
+                        value={this.state.birthday}
                         onChange={this.handleDateChange}
                     />
                 </MuiPickersUtilsProvider>

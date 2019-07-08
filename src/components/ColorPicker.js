@@ -24,8 +24,13 @@ class ColorPicker extends Component {
   };
 
   handleChange = (color) => {
+    // debugger;
     this.setState({ color: color.rgb })
   };
+
+  passColor = (color) => {
+    this.props.handleColorChange(color.hex, this.props.type)
+  }
 
   render() {
 
@@ -79,7 +84,7 @@ class ColorPicker extends Component {
         </div>
         { this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <HuePicker color={ this.state.color } onChange={ this.handleChange }  height={"24px"}/>
+          <HuePicker color={ this.state.color } onChange={ this.handleChange } onChangeComplete={ this.passColor }  height={"24px"}/>
         </div> : null }
 
       </div>
