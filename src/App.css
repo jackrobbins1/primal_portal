@@ -91,6 +91,10 @@
 /* End Category Chart Styles */
 
 /* Account Page Styles */
+.accountPaddingBottom{
+  padding-bottom: 45px;
+}
+
 .switchLabel{
   font-size: 12px !important;
   text-align: center;
@@ -100,9 +104,70 @@
   margin: auto;
 }
 
+.myDatePicker{
+  padding-left: 24px !important;
+}
+
+.myWeightButton {
+  height: 56px;
+  margin: 8px 0 !important;
+}
+
+.floatingButtonsContainer {
+  position: fixed;
+  bottom: 15px;
+  right: auto;
+  left: auto;
+}
+
+.floatingButtons {
+  width: 95px;
+}
+
+.left {
+  margin-right: 8px !important;
+}
+.right {
+  margin-left: 8px !important;
+}
+
   /* Color Picker */
   .colorContainer {
     display: flex;
+    margin: 8px 0 8px 8px;
+  }
+
+  .myLabelFont {
+    color: rgba(0, 0, 0, 0.54);
+    padding: 0;
+    font-size: 14px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.00938em;
+    /* width: 100%; */
+    padding: 15px 24px 0px 24px;
+  }
+
+  .privacyLabelFont {
+    color: rgba(0, 0, 0, 0.54);
+    padding: 0;
+    font-size: 10px !important;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.00938em;
+    /* width: 100%; */
+    padding: 15px 24px 0px 24px;
+  }
+
+  .hue-horizontal {
+    padding: 0px 2px;
+    position: relative;
+    height: 100%;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
   }
   /* End Color Picker */
 

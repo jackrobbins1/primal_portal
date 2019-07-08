@@ -43,6 +43,7 @@ class ColorPicker extends Component {
           borderRadius: '1px',
           boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
           display: 'inline-block',
+          margin: 'auto 0 auto 0',
           cursor: 'pointer',
         },
         // popover: {
@@ -78,7 +79,7 @@ class ColorPicker extends Component {
         </div>
         { this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <HuePicker color={ this.state.color } onChange={ this.handleChange } />
+          <HuePicker color={ this.state.color } onChange={ this.handleChange }  height={"24px"}/>
         </div> : null }
 
       </div>

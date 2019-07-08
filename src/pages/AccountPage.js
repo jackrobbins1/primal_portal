@@ -27,6 +27,11 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Switch from '@material-ui/core/Switch';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 
 const styles = theme => ({
     root: {
@@ -40,6 +45,9 @@ const styles = theme => ({
     formControl: {
       margin: theme.spacing.unit,
     },
+    formControlLabel: {
+        fontSize: '12px',
+    }
 });
 
 class AccountPage extends PureComponent{
@@ -55,7 +63,7 @@ class AccountPage extends PureComponent{
     const { classes } = this.props;
 
     return (
-      <div className="centerContainer">
+    <div className="centerContainer accountPaddingBottom">
 
         <h2>My Account</h2>
 
@@ -153,12 +161,231 @@ class AccountPage extends PureComponent{
                     />
                 </FormControl>
             </ListItem>
+            <div className="myLabelFont">Data Point Primary Color:</div>
             <ListItem>
                 <ColorPicker />
             </ListItem>
+            <div className="myLabelFont">Data Point Secondary Color:</div>
+            <ListItem>
+                <ColorPicker />
+            </ListItem>
+
         </List>
-        <ColorPicker />
-      </div>
+
+        <Divider className="myDivider" />
+
+        <h3>Personal Details</h3>
+
+        <List className={classes.root}>
+
+            <ListItem className="myDatePicker">
+                <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                    <DatePicker
+                        margin="normal"
+                        label="Birthday"
+                        // value={selectedDate}
+                        onChange={this.handleDateChange}
+                    />
+                </MuiPickersUtilsProvider>
+            </ListItem>
+            <div className="myLabelFont">Height:</div>
+            <ListItem>
+                <FormControl className={classes.formControl} variant="outlined">
+                    <InputLabel
+                        ref={ref => {
+                        this.labelRef = ReactDOM.findDOMNode(ref);
+                        }}
+                        htmlFor="component-outlined"
+                    >
+                        Feet
+                    </InputLabel>
+                    <OutlinedInput
+                        id="component-outlined"
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                        type="number"
+                        labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                    />
+                </FormControl>
+                <FormControl className={classes.formControl} variant="outlined">
+                    <InputLabel
+                        ref={ref => {
+                        this.labelRef = ReactDOM.findDOMNode(ref);
+                        }}
+                        htmlFor="component-outlined"
+                    >
+                        Inches
+                    </InputLabel>
+                    <OutlinedInput
+                        id="component-outlined"
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                        type="number"
+                        labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                    />
+                </FormControl>
+            </ListItem>
+            <div className="myLabelFont">Weight:</div>
+            <ListItem className="myDatePicker">
+                <Button variant="outlined" className="myWeightButton">
+                    Record Weight For Today
+                </Button>
+            </ListItem>
+            <div className="myLabelFont">Are you a parent?</div>
+            <ListItem className="myDatePicker">
+                <RadioGroup
+                    aria-label="position"
+                    name="position"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    row
+                >
+                    <FormControlLabel
+                        value="yes"
+                        control={<Radio color="primary" />}
+                        label="Yes"
+                        labelPlacement="top"
+                    />
+                    <FormControlLabel
+                        value="no"
+                        control={<Radio color="primary" />}
+                        label="No"
+                        labelPlacement="top"
+                    />
+                </RadioGroup>
+            </ListItem>
+        </List>
+
+        <Divider className="myDivider" />
+
+        <h3>Privacy Settings</h3>
+
+        <List className={classes.root}>
+            <div className="myLabelFont">Visibility of your personal records:</div>
+            <ListItem className="myDatePicker">
+                <RadioGroup
+                    aria-label="position"
+                    name="position"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    row
+                >
+                    <FormControlLabel
+                        value="yes"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
+                        labelPlacement="top"
+                    />
+                    <FormControlLabel
+                        value="no"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
+                        labelPlacement="top"
+                    />
+                </RadioGroup>
+            </ListItem>
+
+            <div className="myLabelFont">Visibility of your age:</div>
+            <ListItem className="myDatePicker">
+                <RadioGroup
+                    aria-label="position"
+                    name="position"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    row
+                >
+                    <FormControlLabel
+                        value="yes"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
+                        labelPlacement="top"
+                    />
+                    <FormControlLabel
+                        value="no"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
+                        labelPlacement="top"
+                    />
+                </RadioGroup>
+            </ListItem>
+            <div className="myLabelFont">Visibility of your height:</div>
+            <ListItem className="myDatePicker">
+                <RadioGroup
+                    aria-label="position"
+                    name="position"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    row
+                >
+                    <FormControlLabel
+                        value="yes"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
+                        labelPlacement="top"
+                    />
+                    <FormControlLabel
+                        value="no"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
+                        labelPlacement="top"
+                    />
+                </RadioGroup>
+            </ListItem>
+            <div className="myLabelFont">Visibility of your weight:</div>
+            <ListItem className="myDatePicker">
+                <RadioGroup
+                    aria-label="position"
+                    name="position"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    row
+                >
+                    <FormControlLabel
+                        value="yes"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
+                        labelPlacement="top"
+                    />
+                    <FormControlLabel
+                        value="no"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
+                        labelPlacement="top"
+                    />
+                </RadioGroup>
+            </ListItem>
+            <div className="myLabelFont">Share that you are a parent:</div>
+            <ListItem className="myDatePicker">
+                <RadioGroup
+                    aria-label="position"
+                    name="position"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    row
+                >
+                    <FormControlLabel
+                        value="yes"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
+                        labelPlacement="top"
+                    />
+                    <FormControlLabel
+                        value="no"
+                        control={<Radio color="primary" />}
+                        label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
+                        labelPlacement="top"
+                    />
+                </RadioGroup>
+            </ListItem>
+
+        </List>
+
+        <div className="floatingButtonsContainer">
+            <Button className="floatingButtons left" variant="contained">Cancel</Button>
+            <Button className="floatingButtons right" variant="contained" color="primary">Save</Button>
+        </div>
+
+    </div>
     )
   }
 }
