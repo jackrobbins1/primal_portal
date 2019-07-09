@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import ColorPicker from '../components/ColorPicker'
 
@@ -30,6 +30,12 @@ import ListItem from '@material-ui/core/ListItem';
 import Switch from '@material-ui/core/Switch';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
@@ -82,7 +88,8 @@ class AccountPage extends PureComponent{
             share_all_prs: userInfo.share_all_prs,
             share_age: userInfo.share_age,
             share_height: userInfo.share_height,
-            share_weight: userInfo.share_weight
+            share_weight: userInfo.share_weight,
+            successMsgOpen: false
         }
     }
 
@@ -126,6 +133,21 @@ class AccountPage extends PureComponent{
         })
     }
 
+    handleSuccessDialog = () => {
+        this.setState({
+            successMsgOpen: true
+        })
+        setTimeout( () => {
+            this.setState({
+                successMsgOpen: false
+            })
+        }, 1500)
+    }
+
+    handleCancel = () => {
+
+    }
+
     handleSubmitUpdate = () => {
         const userID = this.props.userData.user_info.id
         const url = `http://localhost:3000/api/v1/users/${userID}`
@@ -144,6 +166,7 @@ class AccountPage extends PureComponent{
         delete data.user.heightFt;
         delete data.user.heightIn;
         delete data.user.selectedDate;
+        delete data.user.successMsgOpen;
 
         const fetchHeaders = {
             "Content-Type": "application/json"
@@ -157,6 +180,7 @@ class AccountPage extends PureComponent{
         .then(resp => resp.json())
         .then(result => {
             console.log("result: ", result)
+            this.handleSuccessDialog()
         })
         .catch(error => {
             console.log(error)
@@ -496,9 +520,22 @@ class AccountPage extends PureComponent{
         </List>
 
         <div className="floatingButtonsContainer">
-            <Button className="floatingButtons left" variant="contained">Cancel</Button>
+            <Button component={Link} to="/" className="floatingButtons left" variant="contained">Cancel</Button>
             <Button onClick={this.handleSubmitUpdate} className="floatingButtons right" variant="contained" color="primary">Save</Button>
         </div>
+
+        <Dialog
+          maxWidth="xs"
+          open={this.state.successMsgOpen}
+          aria-labelledby="max-width-dialog-title"
+        >
+          <DialogTitle id="max-width-dialog-title">Success</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Your profile has been updated.
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
 
     </div>
     )
