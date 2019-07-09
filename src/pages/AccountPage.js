@@ -67,21 +67,22 @@ class AccountPage extends PureComponent{
         }
 
         this.state = {        
-            userName: userInfo.username,
-            firstName: userInfo.first_name,
-            lastName: userInfo.last_name,
-            nickName: userInfo.pseudonym,
-            showNickName: nickNameKey[userInfo.pr_visibility],
-            primaryColor: userInfo.primary_color,
-            secondaryColor: userInfo.secondary_color,
+            username: userInfo.username,
+            first_name: userInfo.first_name,
+            last_name: userInfo.last_name,
+            pseudonym: userInfo.pseudonym,
+            pr_visibility: nickNameKey[userInfo.pr_visibility],
+            primary_color: userInfo.primary_color,
+            secondary_color: userInfo.secondary_color,
             selectedDate: new Date(`${userInfo.birthday}T11:00:00-06:00`),
+            birthday: userInfo.birthday,
             heightFt: Math.floor(userInfo.height / 12),
             heightIn: Math.floor(userInfo.height % 12),
-            weight: props.userData.weight_info[0],
-            shareAllPrs: userInfo.share_all_prs,
-            shareAge: userInfo.share_age,
-            shareHeight: userInfo.share_height,
-            shareWeight: userInfo.share_weight
+            // weight: props.userData.weight_info[0],
+            share_all_prs: userInfo.share_all_prs,
+            share_age: userInfo.share_age,
+            share_height: userInfo.share_height,
+            share_weight: userInfo.share_weight
         }
     }
 
@@ -125,6 +126,43 @@ class AccountPage extends PureComponent{
         })
     }
 
+    handleSubmitUpdate = () => {
+        const userID = this.props.userData.user_info.id
+        const url = `http://localhost:3000/api/v1/users/${userID}`
+        
+        // const data = {
+        //     user: {
+        //         ...this.state
+        //     }
+        // }
+
+        let data = Object.assign({}, {user:{...this.state}})
+
+        
+        data.user.height = ((parseInt(this.state.heightFt) * 12) + parseInt(this.state.heightIn))
+
+        delete data.user.heightFt;
+        delete data.user.heightIn;
+        delete data.user.selectedDate;
+        debugger;
+        const fetchHeaders = {
+            "Content-Type": "application/json"
+        }
+
+        fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify(data),
+            headers: fetchHeaders
+        })
+        .then(resp => resp.json())
+        .then(result => {
+            console.log("result: ", result)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
     render() {
 
     const { classes } = this.props;
@@ -148,8 +186,8 @@ class AccountPage extends PureComponent{
                     <OutlinedInput
                         fullWidth
                         id="component-outlined"
-                        value={this.state.userName}
-                        name="userName"
+                        value={this.state.username}
+                        name="username"
                         onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
@@ -167,8 +205,8 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.firstName}
-                        name="firstName"
+                        value={this.state.first_name}
+                        name="first_name"
                         onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
@@ -184,8 +222,8 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.lastName}
-                        name="lastName"
+                        value={this.state.last_name}
+                        name="last_name"
                         onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
@@ -210,8 +248,8 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.nickName}
-                        name="nickName"
+                        value={this.state.pseudonym}
+                        name="pseudonym"
                         onChange={this.handleUserInput}
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
@@ -223,10 +261,10 @@ class AccountPage extends PureComponent{
                         control={
                             <Switch
                             className="mySwitch"
-                            name="showNickName"
-                            checked={this.state.showNickName}
+                            name="pr_visibility"
+                            checked={this.state.pr_visibility}
                             onChange={this.handleSwitchInput}
-                            value={this.state.showNickName}
+                            value={this.state.pr_visibility}
                             color="primary"
                             />
                         }
@@ -236,11 +274,11 @@ class AccountPage extends PureComponent{
             </ListItem>
             <div className="myLabelFont">Data Point Primary Color:</div>
             <ListItem>
-                <ColorPicker type="primaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.primaryColor} />
+                <ColorPicker type="primaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.primary_color} />
             </ListItem>
             <div className="myLabelFont">Data Point Secondary Color:</div>
             <ListItem>
-                <ColorPicker type="secondaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.secondaryColor} />
+                <ColorPicker type="secondaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.secondary_color} />
             </ListItem>
 
         </List>
@@ -342,8 +380,8 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="shareAllPrs"
-                    value={this.state.shareAllPrs.toString()}
+                    name="share_all_prs"
+                    value={this.state.share_all_prs.toString()}
                     onChange={this.handleRadioInput}
                     row
                 >
@@ -366,8 +404,8 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="shareAge"
-                    value={this.state.shareAge.toString()}
+                    name="share_age"
+                    value={this.state.share_age.toString()}
                     onChange={this.handleRadioInput}
                     row
                 >
@@ -389,8 +427,8 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="shareHeight"
-                    value={this.state.shareHeight.toString()}
+                    name="share_height"
+                    value={this.state.share_height.toString()}
                     onChange={this.handleRadioInput}
                     row
                 >
@@ -412,8 +450,8 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="shareWeight"
-                    value={this.state.shareWeight.toString()}
+                    name="share_weight"
+                    value={this.state.share_weight.toString()}
                     onChange={this.handleRadioInput}
                     row
                 >
@@ -459,7 +497,7 @@ class AccountPage extends PureComponent{
 
         <div className="floatingButtonsContainer">
             <Button className="floatingButtons left" variant="contained">Cancel</Button>
-            <Button className="floatingButtons right" variant="contained" color="primary">Save</Button>
+            <Button onClick={this.handleSubmitUpdate} className="floatingButtons right" variant="contained" color="primary">Save</Button>
         </div>
 
     </div>
