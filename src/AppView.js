@@ -56,7 +56,7 @@ class AppView extends Component{
                     <Route exact path="/my_personal_records" render={() => (<MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />)}  />
                     <Route exact path="/pr_chart_page/:catId" render={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} />)}/>
                     <Route exact path="/my_weight_records" render={() => (<MyWeightsPage userData={this.state.userData} />)}  />
-                    <Route exact path="/my_account" render={() => (<AccountPage userData={this.state.userData} />)}  />
+                    <Route exact path="/my_account" render={() => this.state.userData ? (<AccountPage userData={this.state.userData} />) : null}  />
                 </div>
             </Router>
 

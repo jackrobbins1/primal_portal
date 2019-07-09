@@ -95,3 +95,32 @@ weight records = {
     weight_lb:
     148.5
 }
+
+hint weight data = {
+    body_fat_perc: 0.09
+    body_muscle_perc: 0.44
+    color: "#2ee1ca"
+    created_at: "2019-06-27T18:32:00.123Z"
+    id: 589
+    stroke: "#ebfe0e"
+    updated_at: "2019-06-27T18:32:00.123Z"
+    user_id: 59
+    weigh_date: "2019-05-01"
+    weight_lb: 151.5
+    x: Tue Apr 30 2019 19:00:00 GMT-0500 (Central Daylight Time) {}
+    y: 151.5
+}
+
+accountpageState = {
+    userName: ,
+    firstName: ,
+    lastName: ,
+    nickName: ,
+    showNickName: ,
+    primaryColor: ,
+    secondaryColor: ,
+    birthday: ,
+    
+    
+
+}

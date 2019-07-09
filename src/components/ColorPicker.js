@@ -5,15 +5,20 @@ import reactCSS from 'reactcss'
 import { HuePicker } from 'react-color'
 
 class ColorPicker extends Component {
-  state = {
-    displayColorPicker: false,
-    color: {
-      r: '241',
-      g: '112',
-      b: '19',
-      a: '1',
-    },
-  };
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      displayColorPicker: false,
+      // color: {
+      //   r: '241',
+      //   g: '112',
+      //   b: '19',
+      //   a: '1',
+      // },
+      color: props.currentColor
+    };
+  }
 
   handleClick = () => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
@@ -24,8 +29,7 @@ class ColorPicker extends Component {
   };
 
   handleChange = (color) => {
-    // debugger;
-    this.setState({ color: color.rgb })
+    this.setState({ color: color.hex })
   };
 
   passColor = (color) => {
@@ -40,7 +44,8 @@ class ColorPicker extends Component {
           width: '36px',
           height: '14px',
           borderRadius: '2px',
-          background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
+          background: `${this.state.color}`,
+          // background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
         },
         swatch: {
           padding: '5px',
@@ -84,7 +89,7 @@ class ColorPicker extends Component {
         </div>
         { this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <HuePicker color={ this.state.color } onChange={ this.handleChange } onChangeComplete={ this.passColor }  height={"24px"}/>
+          <HuePicker color={ this.state.color } onChange={ this.handleChange } onChangeComplete={ this.passColor }  height={"24px"} width={"240px"}/>
         </div> : null }
 
       </div>

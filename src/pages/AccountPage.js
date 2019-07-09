@@ -23,6 +23,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -45,7 +46,8 @@ const styles = theme => ({
       flexWrap: 'wrap',
     },
     formControl: {
-      margin: theme.spacing.unit,
+    //   margin: theme.spacing.unit,
+      margin: theme.spacing(1),
     },
     formControlLabel: {
         fontSize: '12px',
@@ -53,44 +55,77 @@ const styles = theme => ({
 });
 
 class AccountPage extends PureComponent{
-  constructor(props) {
-    super(props)
-    this.state = {
-      userData: props.userData,
-      showNickName: true,
+    constructor(props) {
+        super(props)
+
+        const userInfo = props.userData.user_info
+
+        const nickNameKey = {
+            "pseudo name": true,
+            "full name": false,
+            "only me": false
+        }
+
+        this.state = {        
+            userName: userInfo.username,
+            firstName: userInfo.first_name,
+            lastName: userInfo.last_name,
+            nickName: userInfo.pseudonym,
+            showNickName: nickNameKey[userInfo.pr_visibility],
+            primaryColor: userInfo.primary_color,
+            secondaryColor: userInfo.secondary_color,
+            selectedDate: new Date(`${userInfo.birthday}T11:00:00-06:00`),
+            heightFt: Math.floor(userInfo.height / 12),
+            heightIn: Math.floor(userInfo.height % 12),
+            weight: props.userData.weight_info[0],
+            shareAllPrs: userInfo.share_all_prs,
+            shareAge: userInfo.share_age,
+            shareHeight: userInfo.share_height,
+            shareWeight: userInfo.share_weight
+        }
     }
-  }
 
-  handleUserInput = event => {
-      this.setState({
-          [event.target.name]: event.target.value
-      })
-  }
+    handleUserInput = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
 
-  handleSwitchInput = event => {
-      const myValue = {
-          'true': false,
-          'false': true
-      }
-      this.setState({
-        [event.target.name]: myValue[event.target.value]
-      })
-  }
+    handleSwitchInput = event => {
+        const myValue = {
+            'true': false,
+            'false': true
+        }
+        this.setState({
+            [event.target.name]: myValue[event.target.value]
+        })
+    }
 
-  handleColorChange = (colorHex, inputType) => {
-    this.setState({
-        [inputType]: colorHex
-    })
-  }
+    handleRadioInput = event => {
+        const myValue = {
+            'true': true,
+            'false': false
+        }
+        this.setState({
+            [event.target.name]: myValue[event.target.value]
+        })
+    }
 
-  handleDateChange = date => {
-      debugger;
-      this.setState({
-          birthday: moment(date).format("YYYY-MM-DD")
-      })
-  }
+    handleColorChange = (colorHex, inputType) => {
+        this.setState({
+            [inputType]: colorHex
+        })
+    }
 
-  render() {
+    handleDateChange = date => {
+        //   debugger;
+        this.setState({
+            selectedDate: date,
+            birthday: moment(date).format("YYYY-MM-DD")
+        })
+    }
+
+    render() {
 
     const { classes } = this.props;
 
@@ -111,6 +146,7 @@ class AccountPage extends PureComponent{
                         Username
                     </InputLabel>
                     <OutlinedInput
+                        fullWidth
                         id="component-outlined"
                         value={this.state.userName}
                         name="userName"
@@ -200,11 +236,11 @@ class AccountPage extends PureComponent{
             </ListItem>
             <div className="myLabelFont">Data Point Primary Color:</div>
             <ListItem>
-                <ColorPicker type="primaryColor" handleColorChange={this.handleColorChange} />
+                <ColorPicker type="primaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.primaryColor} />
             </ListItem>
             <div className="myLabelFont">Data Point Secondary Color:</div>
             <ListItem>
-                <ColorPicker type="secondaryColor" handleColorChange={this.handleColorChange} />
+                <ColorPicker type="secondaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.secondaryColor} />
             </ListItem>
 
         </List>
@@ -218,9 +254,11 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <MuiPickersUtilsProvider utils={DateFnsUtils} >
                     <DatePicker
+                        disableFuture
+                        format="MM-dd-yyyy"
                         margin="normal"
                         label="Birthday"
-                        value={this.state.birthday}
+                        value={this.state.selectedDate}
                         onChange={this.handleDateChange}
                     />
                 </MuiPickersUtilsProvider>
@@ -238,8 +276,9 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={this.state.heightFt}
+                        name="heightFt"
+                        onChange={this.handleUserInput}
                         type="number"
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
@@ -255,8 +294,9 @@ class AccountPage extends PureComponent{
                     </InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={this.state.heightIn}
+                        name="heightIn"
+                        onChange={this.handleUserInput}
                         type="number"
                         labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
                     />
@@ -268,7 +308,7 @@ class AccountPage extends PureComponent{
                     Record Weight For Today
                 </Button>
             </ListItem>
-            <div className="myLabelFont">Are you a parent?</div>
+            {/* <div className="myLabelFont">Are you a parent?</div>
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
@@ -290,7 +330,7 @@ class AccountPage extends PureComponent{
                         labelPlacement="top"
                     />
                 </RadioGroup>
-            </ListItem>
+            </ListItem> */}
         </List>
 
         <Divider className="myDivider" />
@@ -302,19 +342,19 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="position"
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    name="shareAllPrs"
+                    value={this.state.shareAllPrs.toString()}
+                    onChange={this.handleRadioInput}
                     row
                 >
                     <FormControlLabel
-                        value="yes"
+                        value="true"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
                         labelPlacement="top"
                     />
                     <FormControlLabel
-                        value="no"
+                        value="false"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
                         labelPlacement="top"
@@ -326,19 +366,19 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="position"
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    name="shareAge"
+                    value={this.state.shareAge.toString()}
+                    onChange={this.handleRadioInput}
                     row
                 >
                     <FormControlLabel
-                        value="yes"
+                        value="true"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
                         labelPlacement="top"
                     />
                     <FormControlLabel
-                        value="no"
+                        value="false"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
                         labelPlacement="top"
@@ -349,19 +389,19 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="position"
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    name="shareHeight"
+                    value={this.state.shareHeight.toString()}
+                    onChange={this.handleRadioInput}
                     row
                 >
                     <FormControlLabel
-                        value="yes"
+                        value="true"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
                         labelPlacement="top"
                     />
                     <FormControlLabel
-                        value="no"
+                        value="false"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
                         labelPlacement="top"
@@ -372,26 +412,26 @@ class AccountPage extends PureComponent{
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
-                    name="position"
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    name="shareWeight"
+                    value={this.state.shareWeight.toString()}
+                    onChange={this.handleRadioInput}
                     row
                 >
                     <FormControlLabel
-                        value="yes"
+                        value="true"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Share with others</Typography>}
                         labelPlacement="top"
                     />
                     <FormControlLabel
-                        value="no"
+                        value="false"
                         control={<Radio color="primary" />}
                         label={<Typography className={classes.formControlLabel}>Only I can view</Typography>}
                         labelPlacement="top"
                     />
                 </RadioGroup>
             </ListItem>
-            <div className="myLabelFont">Share that you are a parent:</div>
+            {/* <div className="myLabelFont">Share that you are a parent:</div>
             <ListItem className="myDatePicker">
                 <RadioGroup
                     aria-label="position"
@@ -413,7 +453,7 @@ class AccountPage extends PureComponent{
                         labelPlacement="top"
                     />
                 </RadioGroup>
-            </ListItem>
+            </ListItem> */}
 
         </List>
 
