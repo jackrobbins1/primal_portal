@@ -144,7 +144,7 @@ class AccountPage extends PureComponent{
         delete data.user.heightFt;
         delete data.user.heightIn;
         delete data.user.selectedDate;
-        debugger;
+
         const fetchHeaders = {
             "Content-Type": "application/json"
         }
@@ -274,11 +274,11 @@ class AccountPage extends PureComponent{
             </ListItem>
             <div className="myLabelFont">Data Point Primary Color:</div>
             <ListItem>
-                <ColorPicker type="primaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.primary_color} />
+                <ColorPicker type="primary_color" handleColorChange={this.handleColorChange} currentColor={this.state.primary_color} />
             </ListItem>
             <div className="myLabelFont">Data Point Secondary Color:</div>
             <ListItem>
-                <ColorPicker type="secondaryColor" handleColorChange={this.handleColorChange} currentColor={this.state.secondary_color} />
+                <ColorPicker type="secondary_color" handleColorChange={this.handleColorChange} currentColor={this.state.secondary_color} />
             </ListItem>
 
         </List>
