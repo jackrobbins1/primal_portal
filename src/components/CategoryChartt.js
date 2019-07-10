@@ -19,6 +19,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
+import AddPrButton from './AddPrButton';
 
 const moment = require('moment');
 console.log(moment("20111031", "YYYYMMDD").fromNow())
@@ -44,16 +45,19 @@ class CategoryChartt extends Component{
     categoryTitle: undefined,
     xAxis: 'age',
     yAxis: 'weight',
-    filterGender: 'both'
+    filterGender: 'both',
+    categoryList: {
+      list_with_types: null
+    }
   }
 
-  // componentDidMount() {
-  //     fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`)
-  //     .then(resp => resp.json())
-  //     .then(data => {
-  //         this.setState({newData: data})
-  //     })
-  // }
+  componentDidMount() {
+      fetch(`http://localhost:3000/api/v1/pr_categories`)
+      .then(resp => resp.json())
+      .then(data => {
+          this.setState({categoryList: data})
+      })
+  }
 
   componentWillReceiveProps(nextProps) {
     fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`)
@@ -188,12 +192,7 @@ class CategoryChartt extends Component{
           </XYPlot>
 
           <CardActions classes={{root: 'cardActionButtons'}}>
-              {/* <Button size="small" color="primary">
-                  Add Turkish Getup PR
-              </Button>
-              <Button size="small" color="primary">
-                  View Record
-              </Button> */}
+            {this.state.categoryList.list_with_types ? <AddPrButton categoryList={this.state.categoryList.list_with_types} prCategoryID={parseInt(this.props.prCategoryID)} /> : null }
             <form className={classes.root} autoComplete='off'>
               <FormControl className={classes.formControl}>
                 {/* <InputLabel htmlFor="age-simple">X Axis:</InputLabel> */}

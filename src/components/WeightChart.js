@@ -19,6 +19,20 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+
 
 const moment = require('moment');
 
@@ -44,7 +58,16 @@ class WeightChart extends Component{
     categoryTitle: undefined,
     xAxis: 'age',
     yAxis: 'weight',
-    filterGender: ''
+    filterGender: '',
+    dialogOpen: false,
+    successMsgOpen: false,
+    newWeightForm: {
+      user_id: null,
+      weight_lb: null,
+      body_fat_perc: null,
+      body_muscle_perc: null,
+      weigh_date: null
+    }
   }
 
   componentDidMount() {
@@ -55,7 +78,12 @@ class WeightChart extends Component{
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.userData) {
-      this.setState({propDataLoaded: true})
+      this.setState({
+        propDataLoaded: true,
+        newWeightForm: {
+          user_id: nextProps.userData.user_info.id
+        }
+      })
     }
   }
 
@@ -68,7 +96,7 @@ class WeightChart extends Component{
       'muscPerc': '%'
     }
 
-    const loggedInUser = this.props.userData.user_info
+    // const loggedInUser = this.props.userData.user_info
 
     let newData = {
         // User: this.capital_letter(data.userPseudo),
@@ -103,7 +131,73 @@ class WeightChart extends Component{
     this.setState({yAxis: event.target.value})
   }
 
+  handleFormOpen = () => {
+    this.setState({dialogOpen: true})
+  }
 
+  handleFormClose = () => {
+    this.setState({dialogOpen: false})
+  }
+
+  handleFormChange = event => {
+    let updatedForm = Object.assign({}, {...this.state.newWeightForm})
+    updatedForm[event.target.name] = event.target.value
+
+    this.setState({
+      newWeightForm: updatedForm
+    })
+  }
+
+  handleFormDate = date => {
+    let updatedForm = Object.assign({}, {...this.state.newWeightForm})
+    updatedForm.weigh_date = moment(date).format("YYYY-MM-DD")
+
+    this.setState({
+      selectedDate: date,
+      newWeightForm: updatedForm
+    })
+  }
+
+  handleSuccessDialog = () => {
+    this.setState({
+        successMsgOpen: true
+    })
+    setTimeout( () => {
+        this.setState({
+            successMsgOpen: false
+        })
+    }, 1500)
+  }
+
+  handleFormSubmit = () => {
+    const url = `http://localhost:3000/api/v1/weights`
+
+    let data = Object.assign({}, {weight:{...this.state.newWeightForm}})
+
+    data.weight.weight_lb = parseFloat(data.weight.weight_lb);
+    data.weight.body_fat_perc = (parseFloat(data.weight.body_fat_perc) / 100);
+    data.weight.body_muscle_perc = (parseFloat(data.weight.body_muscle_perc) / 100);
+
+    const fetchHeaders = {
+        "Content-Type": "application/json"
+    }
+
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: fetchHeaders
+    })
+    .then(resp => resp.json())
+    .then(result => {
+        console.log("result: ", result)
+        this.handleSuccessDialog()
+        this.handleFormClose()
+    })
+    .catch(error => {
+        console.log(error)
+    })
+  }
+ 
   render() {
 
     const { classes } = this.props;
@@ -230,6 +324,11 @@ class WeightChart extends Component{
           </XYPlot>
 
           <CardActions classes={{root: 'cardActionButtons'}}>
+            
+            <Button onClick={this.handleFormOpen} size="small" variant="contained" color="primary">
+              Add Weight Record
+            </Button>
+
             <form className={classes.root} autoComplete='off'>
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="age-simple">Y Axis:</InputLabel>
@@ -268,6 +367,114 @@ class WeightChart extends Component{
           </CardActions>
         </Card>
 
+        <Dialog
+          open={this.state.dialogOpen}
+          onClose={this.handleFormClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Add Weight Record</DialogTitle>
+          <DialogContent>
+            <List className={classes.root}>
+              <ListItem>
+                  <FormControl className={classes.formControl} variant="outlined">
+                      <InputLabel
+                          ref={ref => {
+                          this.labelRef = ReactDOM.findDOMNode(ref);
+                          }}
+                          htmlFor="component-outlined"
+                      >
+                          Weight (lbs)
+                      </InputLabel>
+                      <OutlinedInput
+                          autoFocus
+                          fullWidth
+                          id="component-outlined"
+                          value={this.state.newWeightForm.weight_lb}
+                          name="weight_lb"
+                          onChange={this.handleFormChange}
+                          type="number"
+                          labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                      />
+                  </FormControl>
+                  <div className="addMargin">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                      <DatePicker
+                          disableFuture
+                          format="MM-dd-yyyy"
+                          margin="normal"
+                          label="Weigh Date"
+                          value={this.state.selectedDate}
+                          onChange={this.handleFormDate}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </div>
+              </ListItem>
+              <ListItem>
+                  <FormControl className={classes.formControl} variant="outlined">
+                      <InputLabel
+                          ref={ref => {
+                          this.labelRef = ReactDOM.findDOMNode(ref);
+                          }}
+                          htmlFor="component-outlined"
+                      >
+                          Body Fat Percent
+                      </InputLabel>
+                      <OutlinedInput
+                          fullWidth
+                          id="component-outlined"
+                          value={this.state.newWeightForm.body_fat_perc}
+                          name="body_fat_perc"
+                          onChange={this.handleFormChange}
+                          type="number"
+                          endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                          labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                      />
+                  </FormControl>
+                  <FormControl className={classes.formControl} variant="outlined">
+                      <InputLabel
+                          ref={ref => {
+                          this.labelRef = ReactDOM.findDOMNode(ref);
+                          }}
+                          htmlFor="component-outlined"
+                      >
+                          Body Muscle Percent
+                      </InputLabel>
+                      <OutlinedInput
+                          fullWidth
+                          id="component-outlined"
+                          value={this.state.newWeightForm.body_muscle_perc}
+                          name="body_muscle_perc"
+                          onChange={this.handleFormChange}
+                          type="number"
+                          endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                          labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                      />
+                  </FormControl>
+              </ListItem>
+            </List>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleFormClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleFormSubmit} color="primary">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          maxWidth="xs"
+          open={this.state.successMsgOpen}
+          aria-labelledby="max-width-dialog-title"
+        >
+          <DialogTitle id="max-width-dialog-title">Success</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Your weight record has been submitted.
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
 
       </div>
     )

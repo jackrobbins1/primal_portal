@@ -144,19 +144,9 @@ class AccountPage extends PureComponent{
         }, 1500)
     }
 
-    handleCancel = () => {
-
-    }
-
     handleSubmitUpdate = () => {
         const userID = this.props.userData.user_info.id
         const url = `http://localhost:3000/api/v1/users/${userID}`
-        
-        // const data = {
-        //     user: {
-        //         ...this.state
-        //     }
-        // }
 
         let data = Object.assign({}, {user:{...this.state}})
 

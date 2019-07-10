@@ -182,14 +182,17 @@ class CategoryChartPersonal extends Component{
         //   'weight': 'userBodyWeight',
         //   'height': 'userHeight'
         // }
-        array = this.props.userData.user_records[categoryCode[this.props.prCategoryID]].map(obj => {
-          let newObj = Object.assign({}, obj)
-          newObj.y = newObj[obj.weight_reps_or_time_based]
-          newObj.x = new Date(newObj.date);
-          newObj.color = this.props.userData.user_info.primary_color
-          newObj.stroke = this.props.userData.user_info.secondary_color
-          return newObj
-        })
+        if (this.props.userData.user_records[categoryCode[this.props.prCategoryID]]){
+          array = this.props.userData.user_records[categoryCode[this.props.prCategoryID]].map(obj => {
+            let newObj = Object.assign({}, obj)
+            newObj.y = newObj[obj.weight_reps_or_time_based]
+            newObj.x = new Date(newObj.date);
+            newObj.color = this.props.userData.user_info.primary_color
+            newObj.stroke = this.props.userData.user_info.secondary_color
+            return newObj
+          })
+        }
+
         // filter the data points based on gender e.g. male / female 
 
         // }

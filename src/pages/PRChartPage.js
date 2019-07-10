@@ -62,32 +62,31 @@ class PRChartPage extends Component {
   };
 
   render() {
-    console.log(this)
     const { classes } = this.props;
 
     return (
         <div className='centerContainer'>
             <div className={classes.root}>
                 <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel
-                    ref={ref => {
-                    this.InputLabelRef = ref;
-                    }}
-                    htmlFor="outlined-age-simple"
-                >
-                    PR Category
-                </InputLabel>
-                <Select
-                    value={this.state.prCategoryID}
-                    onChange={this.handleChange}
-                    input={
-                    <OutlinedInput
-                        labelWidth={this.state.labelWidth}
-                        name="age"
-                        id="outlined-age-simple"
-                    />
-                    }
-                >
+                  <InputLabel
+                      ref={ref => {
+                      this.InputLabelRef = ref;
+                      }}
+                      htmlFor="outlined-age-simple"
+                  >
+                      PR Category
+                  </InputLabel>
+                  <Select
+                      value={this.state.prCategoryID}
+                      onChange={this.handleChange}
+                      input={
+                      <OutlinedInput
+                          labelWidth={this.state.labelWidth}
+                          name="age"
+                          id="outlined-age-simple"
+                      />
+                      }
+                  >
                     <MenuItem value="">
                     <em>None</em>
                     </MenuItem>
@@ -98,7 +97,7 @@ class PRChartPage extends Component {
                     <MenuItem value={5}>Push-Ups</MenuItem>
                     <MenuItem value={6}>Farmer-Carry</MenuItem>
                     <MenuItem value={7}>Simple and Sinister</MenuItem>
-                </Select>
+                  </Select>
                 </FormControl>
             </div>
 
