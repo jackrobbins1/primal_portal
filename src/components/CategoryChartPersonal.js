@@ -14,11 +14,12 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
+
+import AddPrButton from '../components/AddPrButton';
 
 const moment = require('moment');
 
@@ -44,16 +45,18 @@ class CategoryChartPersonal extends Component{
     categoryTitle: undefined,
     xAxis: 'age',
     yAxis: 'weight',
-    filterGender: ''
+    categoryList: {
+      list_with_types: null
+    }
   }
 
-  // componentDidMount() {
-  //     fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`)
-  //     .then(resp => resp.json())
-  //     .then(data => {
-  //         this.setState({newData: data})
-  //     })
-  // }
+  componentDidMount() {
+    fetch(`http://localhost:3000/api/v1/pr_categories`)
+    .then(resp => resp.json())
+    .then(data => {
+        this.setState({categoryList: data})
+    })
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.userData !== undefined) {
@@ -254,43 +257,9 @@ class CategoryChartPersonal extends Component{
             {this.state.hintData ? customHint() : null}
           </XYPlot>
 
-          {/* <CardActions classes={{root: 'cardActionButtons'}}>
-            <form className={classes.root} autoComplete='off'>
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-simple">X Axis:</InputLabel>
-                <Select
-                  value={this.state.xAxis}
-                  onChange={this.handleChangeXAxis}
-                  inputProps={{
-                    name: 'age',
-                    id: 'age-simple',
-                  }}
-                >
-                  <MenuItem value={'age'}>Age</MenuItem>
-                  <MenuItem value={'weight'}>Weight</MenuItem>
-                  <MenuItem value={'height'}>Height</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-simple">Filter M/F:</InputLabel>
-                <Select
-                  value={this.state.filterGender}
-                  onChange={this.handleChangeFilterGender}
-                  inputProps={{
-                    name: 'age',
-                    id: 'age-simple',
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={'f'}>Female</MenuItem>
-                  <MenuItem value={'m'}>Male</MenuItem>
-                </Select>
-              </FormControl>
-            </form>
-
-          </CardActions> */}
+          <CardActions classes={{root: 'cardActionButtons'}}>
+            {this.state.categoryList.list_with_types && this.state.propDataLoaded ? <AddPrButton categoryList={this.state.categoryList.list_with_types} prCategoryID={parseInt(this.props.prCategoryID)} userID={this.props.userData.user_info.id} /> : null }
+          </CardActions>
         </Card>
 
 

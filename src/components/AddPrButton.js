@@ -47,8 +47,9 @@ const styles = theme => ({
 class AddPrButton extends Component {
     state = {
         open: false,
+        successMsgOpen: false,
         newPersonalRecordForm: {
-            user_id: null,
+            user_id: this.props.userID,
             pr_category_id: this.props.prCategoryID,
             weight_reps_or_time_based: null,
             weight: null,
@@ -109,6 +110,44 @@ class AddPrButton extends Component {
 
         const result = this.props.categoryList[categoryId].weight_reps_or_time_based.includes(categoryType)
         return result
+    }
+
+    handleSuccessDialog = () => {
+        this.setState({
+            successMsgOpen: true
+        })
+        setTimeout( () => {
+            this.setState({
+                successMsgOpen: false
+            })
+        }, 1500)
+    }
+
+    handleFormSubmit = () => {
+        const url = `http://localhost:3000/api/v1/records`
+    
+        let data = Object.assign({}, {record:{...this.state.newPersonalRecordForm}})
+    
+        // data.record.weight = parseFloat(data.record.weight);
+    
+        const fetchHeaders = {
+            "Content-Type": "application/json"
+        }
+    
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: fetchHeaders
+        })
+        .then(resp => resp.json())
+        .then(result => {
+            console.log("result: ", result)
+            this.handleSuccessDialog()
+            this.handleClose()
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     render() {
@@ -232,18 +271,18 @@ class AddPrButton extends Component {
                                 null
                             }
                         </ListItem>
-                        <div className="addMargin">
-                            <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                            <DatePicker
-                                disableFuture
-                                format="MM-dd-yyyy"
-                                margin="normal"
-                                label="Record Date"
-                                value={this.state.selectedDate}
-                                onChange={this.handleFormDate}
-                            />
-                            </MuiPickersUtilsProvider>
-                        </div>
+                        <ListItem className="myDatePicker">
+                                <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                <DatePicker
+                                    disableFuture
+                                    format="MM-dd-yyyy"
+                                    margin="normal"
+                                    label="Record Date"
+                                    value={this.state.selectedDate}
+                                    onChange={this.handleFormDate}
+                                />
+                                </MuiPickersUtilsProvider>
+                        </ListItem>
                             {/* <FormControl className={classes.formControl} variant="outlined">
                                 <InputLabel
                                     ref={ref => {
@@ -324,24 +363,24 @@ class AddPrButton extends Component {
                     <Button onClick={this.handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={this.handleClose} color="primary">
+                    <Button onClick={this.handleFormSubmit} color="primary">
                         Submit
                     </Button>
                 </DialogActions>
             </Dialog>
 
             <Dialog
-            maxWidth="xs"
-            open={this.state.successMsgOpen}
-            aria-labelledby="max-width-dialog-title"
-            >
-            <DialogTitle id="max-width-dialog-title">Success</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    Your personal record has been submitted.
-                </DialogContentText>
-            </DialogContent>
-        </Dialog>
+                maxWidth="xs"
+                open={this.state.successMsgOpen}
+                aria-labelledby="max-width-dialog-title"
+                >
+                <DialogTitle id="max-width-dialog-title">Success</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Your personal record has been submitted.
+                    </DialogContentText>
+                </DialogContent>
+            </Dialog>
 
         </div>
         );

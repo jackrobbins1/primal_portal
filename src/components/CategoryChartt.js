@@ -192,7 +192,7 @@ class CategoryChartt extends Component{
           </XYPlot>
 
           <CardActions classes={{root: 'cardActionButtons'}}>
-            {this.state.categoryList.list_with_types ? <AddPrButton categoryList={this.state.categoryList.list_with_types} prCategoryID={parseInt(this.props.prCategoryID)} /> : null }
+            {this.state.categoryList.list_with_types ? <AddPrButton categoryList={this.state.categoryList.list_with_types} prCategoryID={parseInt(this.props.prCategoryID)} userID={this.props.userID} /> : null }
             <form className={classes.root} autoComplete='off'>
               <FormControl className={classes.formControl}>
                 {/* <InputLabel htmlFor="age-simple">X Axis:</InputLabel> */}
