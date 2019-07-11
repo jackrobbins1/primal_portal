@@ -180,11 +180,16 @@ class CategoryChartt extends Component{
         return array
     }
 
-    const chartSize = window.innerWidth * 0.50
+    let chartSize = window.innerWidth * 0.53
+
+    if (document.getElementById("coolCard")) {
+      chartSize = document.getElementById("coolCard").offsetWidth * 0.98
+    }
+    
 
     return (
       <div>
-        <Card className='myCard'>
+        <Card className='myCard' id='coolCard'>
           <CardHeader title={this.state.categoryTitle} classes={{ content: 'centerTitle' }}/>
 
           <XYPlot height={chartSize} width={chartSize}>

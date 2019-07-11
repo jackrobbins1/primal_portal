@@ -270,7 +270,11 @@ class WeightChart extends Component{
     }
     // console.log(chartData())
 
-    const chartSize = window.innerWidth * 0.50
+    let chartSize = window.innerWidth * 0.53
+
+    if (document.getElementById("coolCard")) {
+      chartSize = document.getElementById("coolCard").offsetWidth * 0.98
+    }
 
     let customHint = () => {
       const hintData = this.state.hintData
