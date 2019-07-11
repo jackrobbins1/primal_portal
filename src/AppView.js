@@ -60,7 +60,7 @@ class AppView extends Component{
                 <Navbarr sideNavHandler={this.sideNavHandler} />
                 <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
                 <div>
-                    <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
+                    <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} fetchNewData={this.fetchNewData} /> : null}  />
                     <Route exact path="/my_personal_records" render={() => (<MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />)}  />
                     <Route exact path="/pr_chart_page/:catId" render={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} fetchNewData={this.fetchNewData} />)}/>
                     <Route exact path="/my_weight_records" render={() => (<MyWeightsPage userData={this.state.userData} fetchNewData={this.fetchNewData} />)}  />

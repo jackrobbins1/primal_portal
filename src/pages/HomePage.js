@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CategoryChart from '../components/CategoryChart'
 
-import PRCategoryList from '../components/PRCategoryList'
+import CategoryChartt from '../components/CategoryChartt';
+import WeightChart from '../components/WeightChart';
+import PRCategoryList from '../components/PRCategoryList';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -15,54 +16,39 @@ import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 
 class HomePage extends PureComponent{
-  constructor(props) {
-    super(props)
-    this.state = {
-      userData: props.userData
-    }
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     userData: props.userData
+  //   }
+  // }
 
   render() {
+
+    const prCategories = [1, 3, 4, 5]
+    const randomCat = Math.floor(Math.random() * 3)
 
     return (
       <div className='centerContainer'>
 
         <h3>Home</h3>
 
-        <Card className='myCard'>
-          <CardHeader title='Turkish Getup Records' classes={{ content: 'centerTitle' }}/>
+          {/* <CategoryChart /> */}
+          <CategoryChartt
+            prCategoryID={prCategories[randomCat].toString()}
+            userID={this.props.userData.user_info.id}
+            fetchNewData={this.props.fetchNewData}
+            homeChart={true}
+          //  prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}
+          />
 
-          <CategoryChart />
+          <WeightChart userData={this.props.userData} fetchNewData={this.props.fetchNewData}/>
 
-          <CardActions classes={{root: 'cardActionButtons'}}>
-            <Button size="small" color="primary">
-              Add Turkish Getup PR
-            </Button>
-            <Button size="small" color="primary">
-              View Record
-            </Button>
-          </CardActions>
-        </Card>
-
-        <Card className='myCard'>
-          <CardHeader title='Weight Records' classes={{ content: 'centerTitle' }}/>
-
-          <CategoryChart />
-
-          <CardActions classes={{root: 'cardActionButtons'}}>
-            <Button size="small" color="primary">
-              Add Turkish Getup PR
-            </Button>
-            <Button size="small" color="primary">
-              View Record
-            </Button>
-          </CardActions>
-        </Card>
 
         <Card className='myCard'>
           <CardHeader title="PRs You Haven't Recorded" classes={{ content: 'centerTitle' }}/>
 
-          <PRCategoryList categories={this.state.userData.unrecorded_categories} />
+          <PRCategoryList categories={this.props.userData.unrecorded_categories} />
 
         </Card>
 

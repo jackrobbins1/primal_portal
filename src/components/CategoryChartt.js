@@ -22,7 +22,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import AddPrButton from './AddPrButton';
 
 const moment = require('moment');
-console.log(moment("20111031", "YYYYMMDD").fromNow())
 
 const styles = theme => ({
   root: {
@@ -52,11 +51,29 @@ class CategoryChartt extends Component{
   }
 
   componentDidMount() {
+    if (this.props.homeChart) {
+      fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`)
+      .then(resp => resp.json())
+      .then(data => {
+        this.setState({
+          newData: data,
+          categoryTitle: data.category_info,
+          yAxis: data.category_chart_data.length > 0 ? data.category_chart_data[0].recordType : 'weight'
+        })
+      })
+  
       fetch(`http://localhost:3000/api/v1/pr_categories`)
       .then(resp => resp.json())
       .then(data => {
           this.setState({categoryList: data})
       })
+    } else {
+      fetch(`http://localhost:3000/api/v1/pr_categories`)
+      .then(resp => resp.json())
+      .then(data => {
+          this.setState({categoryList: data})
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {

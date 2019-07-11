@@ -33,6 +33,7 @@ const styles = theme => ({
     formControl: {
       margin: theme.spacing.unit,
       minWidth: '90vw',
+      marginTop: '15px',
     },
     selectEmpty: {
       marginTop: theme.spacing.unit * 2,
@@ -106,6 +107,7 @@ class PRChartPage extends Component {
               prCategoryID={this.state.prCategoryID}
               userID={this.props.userID}
               fetchNewData={this.props.fetchNewData}
+              homeChart={false}
             //  prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}
              />
 

@@ -9,7 +9,7 @@ import '../node_modules/react-vis/dist/style.css';
 class App extends Component{
   state = {
     loggedIn: true,
-    user_id: 59
+    user_id: 30
   }
 
   render() {
@@ -22,4 +22,3 @@ class App extends Component{
 }
 
 export default App;
-

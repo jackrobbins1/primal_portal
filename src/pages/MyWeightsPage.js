@@ -5,16 +5,6 @@ import WeightChart from '../components/WeightChart'
 
 
 class MyWeightsPage extends PureComponent{
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       userData: props.userData
-//     }
-//   }
-
-    state = {
-
-    }
 
     render() {
 
