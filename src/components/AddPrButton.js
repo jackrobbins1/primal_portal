@@ -144,6 +144,7 @@ class AddPrButton extends Component {
             console.log("result: ", result)
             this.handleSuccessDialog()
             this.handleClose()
+            this.props.fetchNewData()
         })
         .catch(error => {
             console.log(error)

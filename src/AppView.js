@@ -42,6 +42,14 @@ class AppView extends Component{
         })
     }
 
+    fetchNewData = () => {
+        fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}`)
+        .then(resp => resp.json())
+        .then(data => {
+            this.setState({userData: data})
+        })
+    }
+
     render() {
         return(
             // <div>
@@ -54,9 +62,9 @@ class AppView extends Component{
                 <div>
                     <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} /> : null}  />
                     <Route exact path="/my_personal_records" render={() => (<MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />)}  />
-                    <Route exact path="/pr_chart_page/:catId" render={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} />)}/>
-                    <Route exact path="/my_weight_records" render={() => (<MyWeightsPage userData={this.state.userData} />)}  />
-                    <Route exact path="/my_account" render={() => this.state.userData ? (<AccountPage userData={this.state.userData} />) : null}  />
+                    <Route exact path="/pr_chart_page/:catId" render={(routeProps) => (<PRChartPage {...routeProps} userID={this.state.user_id} userData={this.state.userData} fetchNewData={this.fetchNewData} />)}/>
+                    <Route exact path="/my_weight_records" render={() => (<MyWeightsPage userData={this.state.userData} fetchNewData={this.fetchNewData} />)}  />
+                    <Route exact path="/my_account" render={() => this.state.userData ? (<AccountPage userData={this.state.userData} fetchNewData={this.fetchNewData} />) : null}  />
                 </div>
             </Router>
 

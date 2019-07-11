@@ -105,6 +105,7 @@ class PRChartPage extends Component {
             <CategoryChartt
               prCategoryID={this.state.prCategoryID}
               userID={this.props.userID}
+              fetchNewData={this.props.fetchNewData}
             //  prCategoryID={this.state.prCategoryID === "" ? 1 : this.state.prCategoryID}
              />
 

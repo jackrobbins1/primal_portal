@@ -22,7 +22,7 @@ class MyWeightsPage extends PureComponent{
             <div className='centerContainer'>
                 <h5>My Weight Records</h5>
 
-                <WeightChart userData={this.props.userData}/>
+                <WeightChart userData={this.props.userData} fetchNewData={this.props.fetchNewData}/>
 
             </div>
         )

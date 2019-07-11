@@ -192,6 +192,7 @@ class WeightChart extends Component{
         console.log("result: ", result)
         this.handleSuccessDialog()
         this.handleFormClose()
+        this.props.fetchNewData()
     })
     .catch(error => {
         console.log(error)

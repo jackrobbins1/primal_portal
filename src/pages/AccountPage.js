@@ -171,6 +171,7 @@ class AccountPage extends PureComponent{
         .then(result => {
             console.log("result: ", result)
             this.handleSuccessDialog()
+            this.props.fetchNewData()
         })
         .catch(error => {
             console.log(error)

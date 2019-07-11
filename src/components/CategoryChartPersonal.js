@@ -258,7 +258,7 @@ class CategoryChartPersonal extends Component{
           </XYPlot>
 
           <CardActions classes={{root: 'cardActionButtons'}}>
-            {this.state.categoryList.list_with_types && this.state.propDataLoaded ? <AddPrButton categoryList={this.state.categoryList.list_with_types} prCategoryID={parseInt(this.props.prCategoryID)} userID={this.props.userData.user_info.id} /> : null }
+            {this.state.categoryList.list_with_types && this.state.propDataLoaded ? <AddPrButton categoryList={this.state.categoryList.list_with_types} prCategoryID={parseInt(this.props.prCategoryID)} userID={this.props.userData.user_info.id} fetchNewData={this.props.fetchNewData} /> : null }
           </CardActions>
         </Card>
 
