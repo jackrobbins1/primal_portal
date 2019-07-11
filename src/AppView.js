@@ -76,33 +76,3 @@ class AppView extends Component{
 }
 
 export default AppView
-
-// const drawer = (
-//     <div>
-//         <div className={classes.toolbar} />
-//         <Divider />
-//         <List>
-//             <ListItem button>
-//             <NavLink to="/"></NavLink>
-//             <ListItemIcon><HomeIcon /></ListItemIcon>
-//             <ListItemText primary={'Home'}/>
-//             </ListItem>
-//             <ListItem button>
-//             <ListItemIcon><InsertChart /></ListItemIcon>
-//             <ListItemText primary={'Personal Records'}/>
-//             </ListItem>
-//             <ListItem button>
-//             <ListItemIcon><Person /></ListItemIcon>
-//             <ListItemText primary={'Account Settings'}/>
-//             </ListItem>
-//             <ListItem button>
-//             <ListItemIcon ><AssignmentTurnedIn /></ListItemIcon>
-//             <ListItemText primary={'Record Weight'}/>
-//             </ListItem>
-//             <ListItem button>
-//             <ListItemIcon><People /></ListItemIcon>
-//             <ListItemText primary={'My Brackets'}/>
-//             </ListItem>
-//         </List>
-//     </div>
-// );
