@@ -113,6 +113,7 @@ class PRChartPage extends Component {
             <CategoryChartPersonal 
               userData={this.props.userData}
               prCategoryID={this.state.prCategoryID}
+              fetchNewData={this.props.fetchNewData}
             />
         </div>
       
