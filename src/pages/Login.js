@@ -29,10 +29,12 @@ function TabContainer({ children, dir }) {
     root: {
       backgroundColor: theme.palette.background.paper,
       width: '100%',
+      maxWidth: '700px',
+      margin: '0 auto 0 auto'
     },
   });
   
-  class Login extends Component {
+class Login extends Component {
     state = {
       value: 0,
     };
@@ -68,7 +70,7 @@ function TabContainer({ children, dir }) {
             onChangeIndex={this.handleChangeIndex}
           >
             <TabContainer dir={theme.direction}>
-                <LoginForm />
+                <LoginForm setLogin={this.props.setLogin} />
             </TabContainer>
             <TabContainer dir={theme.direction}>
                 <CreateAcctForm handleChangeIndex={this.handleChangeIndex} />

@@ -9,15 +9,24 @@ import '../node_modules/react-vis/dist/style.css';
 
 class App extends Component{
   state = {
-    loggedIn: true,
+    loggedIn: false,
     user_id: 30
+  }
+
+  setLogin = userID => {
+    this.setState({
+      loggedIn: true,
+      user_id: userID
+    })
   }
 
   render() {
     return (
       <div>
-        {/* <AppView user_id={this.state.user_id} /> */}
-        <Login />
+        
+        {this.state.loggedIn ? <AppView user_id={this.state.user_id} />
+         : 
+        <Login setLogin={this.setLogin} />}
       </div>
     )
   }

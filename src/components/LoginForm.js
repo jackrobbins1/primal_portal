@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -38,8 +38,44 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LoginForm() {
-  const classes = useStyles();
+export default function LoginForm(props) {
+    const classes = useStyles();
+
+    const [username, handleUsername] = useState("");
+    const [password_digest, handlePassword] = useState("");
+
+    const submitLogin = () => {
+        const url = `http://localhost:3000/api/v1/users/login`
+        
+        let data = {login:{
+                        username: username,
+                        password_digest: password_digest
+                        }
+                    }
+    
+        // data.record.weight = parseFloat(data.record.weight);
+    
+        const fetchHeaders = {
+            "Content-Type": "application/json"
+        }
+    
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: fetchHeaders
+        })
+        .then(resp => resp.json())
+        .then(result => {
+            console.log("result: ", result)
+            setTimeout( () => {
+                props.setLogin(result.id)
+                console.log("result: ", result)
+            }, 400)
+        })
+        .catch(error => {
+            alert(error)
+        })
+    }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -57,33 +93,37 @@ export default function LoginForm() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
+            value={username}
+            onChange={e => handleUsername(e.target.value)}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="password"
+            name="password_digest"
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password_digest}
+            onChange={e => handlePassword(e.target.value)}
           />
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           /> */}
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitLogin}
           >
             Sign In
           </Button>
