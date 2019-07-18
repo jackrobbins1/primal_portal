@@ -7,8 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-import LoginForm from '../components/LoginForm'
-import CreateAcctForm from '../components/CreateAcctForm'
+import LoginFormContainer from '../components/LoginFormContainer';
+import CreatAcctContainer from '../components/CreateAcctContainer';
 
 import logo from "../images/CPG-White.png";
 
@@ -72,10 +72,10 @@ class Login extends Component {
             onChangeIndex={this.handleChangeIndex}
           >
             <TabContainer dir={theme.direction}>
-                <LoginForm setLogin={this.props.setLogin} />
+                <LoginFormContainer setLogin={this.props.setLogin} />
             </TabContainer>
             <TabContainer dir={theme.direction}>
-                <CreateAcctForm handleChangeIndex={this.handleChangeIndex} />
+                <CreatAcctContainer handleChangeIndex={this.handleChangeIndex} />
             </TabContainer>
           </SwipeableViews>
         </div>

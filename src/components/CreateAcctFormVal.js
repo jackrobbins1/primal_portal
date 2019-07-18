@@ -36,11 +36,11 @@ const useStyles = makeStyles(theme => ({
 export default function CreateAcctForm(props) {
     const classes = useStyles();
 
-    const [first_name, handleFirstName] = useState("");
-    const [last_name, handleLastName] = useState("");
-    const [email, handleEmail] = useState("");
-    const [username, handleUsername] = useState("");
-    const [password_digest, handlePassword] = useState("");
+    // const [first_name, handleFirstName] = useState("");
+    // const [last_name, handleLastName] = useState("");
+    // const [email, handleEmail] = useState("");
+    // const [username, handleUsername] = useState("");
+    // const [password_digest, handlePassword] = useState("");
     
     const {
       values: { first_name, last_name, email, username, password_digest, confirmPassword },
@@ -51,7 +51,7 @@ export default function CreateAcctForm(props) {
       isValid,
       setFieldTouched
     } = props;
-    console.table(props);
+    // console.table(props);
 
     const change = (name, e) => {
       e.persist();
@@ -60,7 +60,8 @@ export default function CreateAcctForm(props) {
     };
 
   return (
-    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+    // <form className={classes.form} noValidate onSubmit={handleSubmit}>
+    <form className={classes.form} onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -70,11 +71,11 @@ export default function CreateAcctForm(props) {
             fullWidth
             label="First Name"
 
-            value={last_name}
-            onChange={handleChange}
+            value={first_name}
+            onChange={change.bind(null, "first_name")}
 
-            helperText={touched.last_name ? errors.last_name : ""}
-            error={Boolean(errors.last_name)}
+            helperText={touched.first_name ? errors.first_name : ""}
+            error={touched.first_name && Boolean(errors.first_name)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -86,10 +87,10 @@ export default function CreateAcctForm(props) {
             autoComplete="lname"
 
             value={last_name}
-            onChange={handleChange}
+            onChange={change.bind(null, "last_name")}
 
             helperText={touched.last_name ? errors.last_name : ""}
-            error={Boolean(errors.last_name)}
+            error={touched.last_name && Boolean(errors.last_name)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -102,10 +103,10 @@ export default function CreateAcctForm(props) {
             name="email"
 
             value={email}
-            onChange={handleChange}
+            onChange={change.bind(null, "email")}
 
             helperText={touched.email ? errors.email : ""}
-            error={Boolean(errors.email)}
+            error={touched.email && Boolean(errors.email)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -116,10 +117,10 @@ export default function CreateAcctForm(props) {
             name="username"
 
             value={username}
-            onChange={handleChange}
+            onChange={change.bind(null, "username")}
 
             helperText={touched.username ? errors.username : ""}
-            error={Boolean(errors.username)}
+            error={touched.username && Boolean(errors.username)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -131,10 +132,10 @@ export default function CreateAcctForm(props) {
             type="password"
 
             value={password_digest}
-            onChange={handleChange}
+            onChange={change.bind(null, "password_digest")}
 
             helperText={touched.password_digest ? errors.password_digest : ""}
-            error={Boolean(errors.password_digest)}
+            error={touched.password_digest && Boolean(errors.password_digest)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -146,10 +147,10 @@ export default function CreateAcctForm(props) {
             type="password"
 
             value={confirmPassword}
-            onChange={handleChange}
+            onChange={change.bind(null, "confirmPassword")}
 
             helperText={touched.confirmPassword ? errors.confirmPassword : ""}
-            error={Boolean(errors.confirmPassword)}
+            error={touched.confirmPassword && Boolean(errors.confirmPassword)}
           />
         </Grid>
       </Grid>

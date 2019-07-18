@@ -20,8 +20,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import CreateAcctFormVal from './CreateAcctFormVal';
 
-import { Formik } from "formik";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import { object, string, ref } from 'yup';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -50,28 +50,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function CreateAcctForm(props) {
     const classes = useStyles();
-
-    const [first_name, handleFirstName] = useState("");
-    const [last_name, handleLastName] = useState("");
-    const [email, handleEmail] = useState("");
-    const [username, handleUsername] = useState("");
-    const [password_digest, handlePassword] = useState("");
     
-    const [submitWasClicked, handleSubmitClicked] = useState(false);
-
     const [successMsgOpen, handleSuccessDialog] = useState(false)
 
-    const submitForm = () => {
-        handleSubmitClicked(true)
+    const submitForm = data => {
         
         const url = `http://localhost:3000/api/v1/users`
         
-        let data = {user:{
-                        first_name: first_name,
-                        last_name: last_name,
-                        email: email,
-                        username: username,
-                        password_digest: password_digest
+        const bodyData = {user:{
+                        first_name: data.first_name,
+                        last_name: data.last_name,
+                        email: data.email,
+                        username: data.username,
+                        password_digest: data.password_digest
                         }
                     }
 
@@ -83,7 +74,7 @@ export default function CreateAcctForm(props) {
 
         fetch(url, {
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify(bodyData),
             headers: fetchHeaders
         })
         .then(resp => resp.json())
@@ -100,22 +91,34 @@ export default function CreateAcctForm(props) {
         })
     }
 
-    // Yup validation object for formik
-    const validationSchema = Yup.object({
-        name: Yup.string("Enter a name").required("Name is required"),
-        email: Yup.string("Enter your email")
-          .email("Enter a valid email")
-          .required("Email is required"),
-        password: Yup.string("")
-          .min(8, "Password must contain atleast 8 characters")
-          .required("Enter your password"),
-        confirmPassword: Yup.string("Enter your password")
-          .required("Confirm your password")
-          .oneOf([Yup.ref("password")], "Password does not match")
+    // Yup schema used to validate input into formik form
+    const validationSchema = object({
+        first_name: string("Enter a name")
+            .required("First name is required")
+            .trim()
+            .matches(/^[a-zA-Z '\-]+$/, "Only letters", { excludeEmptyString: true }),
+        last_name: string("Enter a name")
+            .required("Last name is required")
+            .trim()
+            .matches(/^[a-zA-Z '\-]+$/, "Only letters", { excludeEmptyString: true }),
+        username: string("Enter a username")
+            .required("Username is required")
+            .trim(),
+        email: string("Enter your email")
+            .email("Enter a valid email")
+            .required("Email is required")
+            .trim()
+            .lowercase(),
+        password_digest: string("")
+            .min(8, "Password must contain at least 8 characters")
+            .required("Enter your password"),
+        confirmPassword: string("Enter your password")
+            .required("Confirm your password")
+            .oneOf([ref("password_digest")], "Password does not match")
     });
 
     // Values for formik form
-    const values = { first_name, last_name, email, username, password_digest, confirmPassword };
+    const values = { first_name: '', last_name: '', email: '', username: '', password_digest: '', confirmPassword: '' };
 
     return (
         <Container component="main" maxWidth="xs">
