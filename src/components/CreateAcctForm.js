@@ -51,10 +51,14 @@ export default function CreateAcctForm(props) {
     const [email, handleEmail] = useState("");
     const [username, handleUsername] = useState("");
     const [password_digest, handlePassword] = useState("");
+    
+    const [submitWasClicked, handleSubmitClicked] = useState(false);
 
     const [successMsgOpen, handleSuccessDialog] = useState(false)
 
   const submitForm = () => {
+    handleSubmitClicked(true)
+    
     const url = `http://localhost:3000/api/v1/users`
     
     let data = {user:{
@@ -112,9 +116,10 @@ export default function CreateAcctForm(props) {
                 fullWidth
                 id="first_name"
                 label="First Name"
-                autoFocus
                 value={first_name}
                 onChange={e => handleFirstName(e.target.value)}
+                error={first_name === ""}
+                helperText={first_name === "" ? 'Empty field!' : ' '}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
