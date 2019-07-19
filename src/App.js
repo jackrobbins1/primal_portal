@@ -9,22 +9,27 @@ import '../node_modules/react-vis/dist/style.css';
 
 class App extends Component{
   state = {
-    loggedIn: false,
-    user_id: 30
+    user_id: localStorage.getItem("user_id") || false
   }
 
   setLogin = userID => {
+    localStorage.setItem("user_id", `${userID}`)
     this.setState({
-      loggedIn: true,
       user_id: userID
     })
+  }
+
+  handleLogout = () => {
+    localStorage.setItem("user_id", "")
+    this.setState({user_id: false})
   }
 
   render() {
     return (
       <div>
         
-        {this.state.loggedIn ? <AppView user_id={this.state.user_id} />
+        {/* {this.state.loggedIn ? <AppView user_id={this.state.user_id} /> */}
+        {this.state.user_id ? <AppView user_id={this.state.user_id} handleLogout={this.handleLogout} />
          : 
         <Login setLogin={this.setLogin} />}
       </div>

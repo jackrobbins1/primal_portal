@@ -33,7 +33,7 @@ export default function Navbarr(props) {
           <Typography variant="h6" className={classes.title}>
             CPG PR Board
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button onClick={props.handleLogout} color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

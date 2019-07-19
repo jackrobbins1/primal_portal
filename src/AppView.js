@@ -57,7 +57,7 @@ class AppView extends Component{
             // </div>
 
             <Router>
-                <Navbarr sideNavHandler={this.sideNavHandler} />
+                <Navbarr sideNavHandler={this.sideNavHandler} handleLogout={this.props.handleLogout} />
                 <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
                 <div>
                     <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} fetchNewData={this.fetchNewData} /> : null}  />
