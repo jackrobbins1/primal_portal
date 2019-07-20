@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -65,14 +63,16 @@ export default function AddPrForm(props) {
             selectedDate
         },
         errors,
+        status,
         touched,
         handleSubmit,
         handleChange,
-        handleReset,
         isValid,
         setFieldTouched,
         setFieldValue,
-        setFieldError
+        setStatus,
+        setErrors,
+        setTouched
     } = props;
 
     const inputLabel = React.useRef(null);
@@ -135,20 +135,29 @@ export default function AddPrForm(props) {
 
     const disableSubmit = () => {
             if (dynamicForm('weight') && weight === '') {
-                console.log('weight was hit')
-                errors.weight = "Required"
+                // errors.weight = "Required"
+                setStatus({weight: "Required"})
                 handleDisableButton(true)
             } else if (dynamicForm('reps') && reps === '') {
-                errors.reps = "Required"
+                // errors.reps = "Required"
+                setStatus({reps: "Required"})
                 handleDisableButton(true)
             } else if (dynamicForm('time') && minutes === '' && seconds === '') {
-                errors.minutes = "Required"
-                errors.seconds = "Required"
+                setStatus({time: "Required"})
+                // errors.minutes = "Required"
+                // errors.seconds = "Required"
+                handleDisableButton(true)
+            } else if (dynamicForm('time') && minutes === 0 && seconds === 0) {
+                setStatus({time: "Time can't be 0"})
                 handleDisableButton(true)
             } else {
                 handleDisableButton(false)
+                setStatus({
+                    weight: null,
+                    reps: null,
+                    time: null
+                })
             }
-            console.log(props)
     }
 
     const change = (name, e) => {
@@ -158,6 +167,23 @@ export default function AddPrForm(props) {
     };
 
     const handleSelect = e => {
+        setStatus({
+            weight: null,
+            reps: null,
+            time: null
+        })
+        setErrors({
+            weight: '',
+            reps: '',
+            minues: '',
+            seconds: ''
+        })
+        setTouched({
+            weight: false,
+            reps: false,
+            minues: false,
+            seconds: false
+        })
         clearValues()
         handleDisableButton(true)
         setFieldValue('pr_category_id', e.target.value, false)
@@ -165,7 +191,7 @@ export default function AddPrForm(props) {
 
     useEffect(() => {
         disableSubmit()
-    })
+    }, [weight, reps, minutes, seconds])
 
     return (
         <React.Fragment>
@@ -205,8 +231,8 @@ export default function AddPrForm(props) {
                                 value={weight}
                                 onChange={change.bind(null, "weight")}
 
-                                helperText={touched.weight ? errors.weight : ""}
-                                error={touched.weight && Boolean(errors.weight)}
+                                helperText={touched.weight ? errors.weight || status.weight : ""}
+                                error={touched.weight && (Boolean(errors.weight) || Boolean(status.weight))}
                             />
                         </Grid>
                         :
@@ -225,8 +251,8 @@ export default function AddPrForm(props) {
                                 value={reps}
                                 onChange={change.bind(null, "reps")}
 
-                                helperText={touched.reps ? errors.reps : ""}
-                                error={touched.reps && Boolean(errors.reps)}
+                                helperText={touched.reps ? errors.reps || status.reps : ""}
+                                error={touched.reps && (Boolean(errors.reps) || Boolean(status.reps))}
                             />
                         </Grid>
                         :
@@ -245,8 +271,8 @@ export default function AddPrForm(props) {
                                     value={minutes}
                                     onChange={change.bind(null, "minutes")}
 
-                                    helperText={touched.minutes ? errors.minutes : ""}
-                                    error={touched.minutes && Boolean(errors.minutes)}
+                                    helperText={touched.minutes ? errors.minutes || status.time : ""}
+                                    error={touched.minutes && (Boolean(errors.minutes) || Boolean(status.time))}
                                 />
                             </Grid>
                             <Grid item sm={6} xs={6}>
@@ -260,8 +286,8 @@ export default function AddPrForm(props) {
                                     value={seconds}
                                     onChange={change.bind(null, "seconds")}
 
-                                    helperText={touched.seconds ? errors.seconds : ""}
-                                    error={touched.seconds && Boolean(errors.seconds)}
+                                    helperText={touched.seconds ? errors.seconds || status.time : ""}
+                                    error={touched.seconds && (Boolean(errors.seconds) || Boolean(status.time))}
                                 />
                             </Grid>
                         </React.Fragment>
@@ -287,7 +313,7 @@ export default function AddPrForm(props) {
             <Button onClick={props.handleClose} color="primary">
                 Cancel
             </Button>
-            <Button onClick={handleSubmit} disabled={disableButton} color="primary">
+            <Button onClick={handleSubmit} disabled={disableButton || !isValid} color="primary">
                 Submit
             </Button>
         </DialogActions>

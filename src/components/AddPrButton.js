@@ -164,8 +164,7 @@ class AddPrButton extends Component {
         const validationSchema = object({
             weight: number()
                 // .required("Weight is a required field")
-                .positive("Number must be positive")
-                .integer("Number can't have decimals"),
+                .positive("Number must be positive"),
             reps: number()
                 // .required("Reps is a required field")
                 .positive("Number must be positive")
