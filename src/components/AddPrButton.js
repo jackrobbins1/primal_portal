@@ -25,6 +25,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 
+import { Formik } from 'formik';
+import { object, number } from 'yup';
+
+import AddPrForm from './AddPrForm';
+
 const moment = require('moment');
 
 const styles = theme => ({
@@ -123,267 +128,99 @@ class AddPrButton extends Component {
         }, 1500)
     }
 
-    handleFormSubmit = () => {
+    handleFormSubmit = data => {
         const url = `http://localhost:3000/api/v1/records`
     
-        let data = Object.assign({}, {record:{...this.state.newPersonalRecordForm}})
+        let bodyData = Object.assign({}, {record:{...data}})
     
         // data.record.weight = parseFloat(data.record.weight);
     
         const fetchHeaders = {
             "Content-Type": "application/json"
         }
+
+        console.log(data)
     
-        fetch(url, {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: fetchHeaders
-        })
-        .then(resp => resp.json())
-        .then(result => {
-            console.log("result: ", result)
-            this.handleSuccessDialog()
-            this.handleClose()
-            this.props.fetchNewData()
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        // fetch(url, {
+        //     method: "POST",
+        //     body: JSON.stringify(bodyData),
+        //     headers: fetchHeaders
+        // })
+        // .then(resp => resp.json())
+        // .then(result => {
+        //     console.log("result: ", result)
+        //     this.handleSuccessDialog()
+        //     this.handleClose()
+        //     this.props.fetchNewData()
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        // })
     }
 
     render() {
         const { classes } = this.props;
 
+        const validationSchema = object({
+            weight: number()
+                // .required("Weight is a required field")
+                .positive("Number must be positive")
+                .integer("Number can't have decimals"),
+            reps: number()
+                // .required("Reps is a required field")
+                .positive("Number must be positive")
+                .integer("Number can't have decimals"),
+            minutes: number()
+                // .required("Minutes is a required field")
+                .integer("Number can't have decimals"),
+            seconds: number()
+                // .required("Seconds is a required field")
+                .integer("Number can't have decimals"),
+        });
+
+        const values = {
+            pr_category_id: this.props.prCategoryID,
+            weight: '',
+            reps: '',
+            minutes: '',
+            seconds: '',
+            date: '',
+            selectedDate: moment()
+        }
+
         return (
-        <div>
-            <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
-                Add PR
-            </Button>
-            <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Add Personal Record</DialogTitle>
-                <DialogContent>
-                    <List className={classes.root}>
-                        <ListItem>
-                            <FormControl variant="outlined" className={classes.formControl}>
-                                <InputLabel
-                                    ref={ref => {
-                                    this.InputLabelRef = ref;
-                                    }}
-                                    htmlFor="outlined-age-simple"
-                                >
-                                    PR Category
-                                </InputLabel>
-                                <Select
-                                    value={this.state.newPersonalRecordForm.pr_category_id}
-                                    onChange={this.handleChange}
-                                    input={
-                                    <OutlinedInput
-                                        labelWidth={this.state.labelWidth}
-                                        name="pr_category_id"
-                                        id="outlined-age-simple"
-                                    />
-                                    }
-                                >
-                                    <MenuItem value={1}>Turkish Getup</MenuItem>
-                                    <MenuItem value={2}>Jump Rope: Double Under</MenuItem>
-                                    <MenuItem value={3}>Pull-Ups</MenuItem>
-                                    <MenuItem value={4}>Chin-Ups</MenuItem>
-                                    <MenuItem value={5}>Push-Ups</MenuItem>
-                                    <MenuItem value={6}>Farmer-Carry</MenuItem>
-                                    <MenuItem value={7}>Simple and Sinister</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </ListItem>
-                        <ListItem>
-                            {this.dynamicForm("weight") ?
-                                <FormControl className={classes.formInput} variant="outlined">
-                                    <InputLabel
-                                        ref={ref => {
-                                        this.labelRef = ReactDOM.findDOMNode(ref);
-                                        }}
-                                        htmlFor="component-outlined"
-                                    >
-                                        Weight (kg)
-                                    </InputLabel>
-                                    <OutlinedInput
-                                        autoFocus
-                                        fullWidth
-                                        id="component-outlined"
-                                        value={this.state.newPersonalRecordForm.weight}
-                                        name="weight"
-                                        onChange={this.handleFormChange}
-                                        type="number"
-                                        labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
-                                    />
-                                </FormControl>
-                                :
-                                null
-                            }
-                            {this.dynamicForm("reps") ?
-                                <FormControl className={classes.formInput} variant="outlined">
-                                    <InputLabel
-                                        ref={ref => {
-                                        this.labelRef = ReactDOM.findDOMNode(ref);
-                                        }}
-                                        htmlFor="component-outlined"
-                                    >
-                                        Reps
-                                    </InputLabel>
-                                    <OutlinedInput
-                                        autoFocus
-                                        fullWidth
-                                        id="component-outlined"
-                                        value={this.state.newPersonalRecordForm.reps}
-                                        name="reps"
-                                        onChange={this.handleFormChange}
-                                        type="number"
-                                        labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
-                                    />
-                                </FormControl>
-                                :
-                                null
-                            }
-                            {this.dynamicForm("time") ?
-                                <FormControl className={classes.formInput} variant="outlined">
-                                    <InputLabel
-                                        ref={ref => {
-                                        this.labelRef = ReactDOM.findDOMNode(ref);
-                                        }}
-                                        htmlFor="component-outlined"
-                                    >
-                                        Time
-                                    </InputLabel>
-                                    <OutlinedInput
-                                        autoFocus
-                                        fullWidth
-                                        id="component-outlined"
-                                        value={this.state.newPersonalRecordForm.time_length}
-                                        name="time_length"
-                                        onChange={this.handleFormChange}
-                                        type="number"
-                                        labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
-                                    />
-                                </FormControl>
-                                :
-                                null
-                            }
-                        </ListItem>
-                        <ListItem className="myDatePicker">
-                                <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                <DatePicker
-                                    disableFuture
-                                    format="MM-dd-yyyy"
-                                    margin="normal"
-                                    label="Record Date"
-                                    value={this.state.selectedDate}
-                                    onChange={this.handleFormDate}
-                                />
-                                </MuiPickersUtilsProvider>
-                        </ListItem>
-                            {/* <FormControl className={classes.formControl} variant="outlined">
-                                <InputLabel
-                                    ref={ref => {
-                                    this.labelRef = ReactDOM.findDOMNode(ref);
-                                    }}
-                                    htmlFor="component-outlined"
-                                >
-                                    Weight (lbs)
-                                </InputLabel>
-                                <OutlinedInput
-                                    autoFocus
-                                    fullWidth
-                                    id="component-outlined"
-                                    value={this.state.newWeightForm.weight_lb}
-                                    name="weight_lb"
-                                    onChange={this.handleFormChange}
-                                    type="number"
-                                    labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
-                                />
-                            </FormControl>
-                            <div className="addMargin">
-                                <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                <DatePicker
-                                    disableFuture
-                                    format="MM-dd-yyyy"
-                                    margin="normal"
-                                    label="Weigh Date"
-                                    value={this.state.selectedDate}
-                                    onChange={this.handleFormDate}
-                                />
-                                </MuiPickersUtilsProvider>
-                            </div>
-                        </ListItem>
-                        <ListItem>
-                            <FormControl className={classes.formControl} variant="outlined">
-                                <InputLabel
-                                    ref={ref => {
-                                    this.labelRef = ReactDOM.findDOMNode(ref);
-                                    }}
-                                    htmlFor="component-outlined"
-                                >
-                                    Body Fat Percent
-                                </InputLabel>
-                                <OutlinedInput
-                                    fullWidth
-                                    id="component-outlined"
-                                    value={this.state.newWeightForm.body_fat_perc}
-                                    name="body_fat_perc"
-                                    onChange={this.handleFormChange}
-                                    type="number"
-                                    endAdornment={<InputAdornment position="end">%</InputAdornment>}
-                                    labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
-                                />
-                            </FormControl>
-                            <FormControl className={classes.formControl} variant="outlined">
-                                <InputLabel
-                                    ref={ref => {
-                                    this.labelRef = ReactDOM.findDOMNode(ref);
-                                    }}
-                                    htmlFor="component-outlined"
-                                >
-                                    Body Muscle Percent
-                                </InputLabel>
-                                <OutlinedInput
-                                    fullWidth
-                                    id="component-outlined"
-                                    value={this.state.newWeightForm.body_muscle_perc}
-                                    name="body_muscle_perc"
-                                    onChange={this.handleFormChange}
-                                    type="number"
-                                    endAdornment={<InputAdornment position="end">%</InputAdornment>}
-                                    labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
-                                />
-                            </FormControl> */}
-                    </List>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={this.handleFormSubmit} color="primary">
-                        Submit
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog
-                maxWidth="xs"
-                open={this.state.successMsgOpen}
-                aria-labelledby="max-width-dialog-title"
+            <div>
+                <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
+                    Add PR
+                </Button>
+                <Dialog
+                open={this.state.open}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
                 >
-                <DialogTitle id="max-width-dialog-title">Success</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Your personal record has been submitted.
-                    </DialogContentText>
-                </DialogContent>
-            </Dialog>
+                    <DialogTitle id="form-dialog-title">Add Personal Record</DialogTitle>
+                    <Formik
+                        render={props => <AddPrForm {...props} handleClose={this.handleClose} categoryList={this.props.categoryList} />}
+                        initialValues={values}
+                        validationSchema={validationSchema}
+                        onSubmit={this.handleFormSubmit}
+                    />
+                </Dialog>
 
-        </div>
+                <Dialog
+                    maxWidth="xs"
+                    open={this.state.successMsgOpen}
+                    aria-labelledby="max-width-dialog-title"
+                    >
+                    <DialogTitle id="max-width-dialog-title">Success</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Your personal record has been submitted.
+                        </DialogContentText>
+                    </DialogContent>
+                </Dialog>
+
+            </div>
         );
     }
 }
