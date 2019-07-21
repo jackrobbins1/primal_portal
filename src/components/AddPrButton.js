@@ -134,28 +134,51 @@ class AddPrButton extends Component {
         let bodyData = Object.assign({}, {record:{...data}})
     
         // data.record.weight = parseFloat(data.record.weight);
-    
+
+        bodyData.record.user_id = this.props.userID
+
+        let isoTime = null
+
+        if (data.minutes || data.seconds) {
+            let min = data.minutes
+            let sec = data.seconds
+            if (data.minutes === '') {
+                min = 0
+            } else if (data.seconds === '') {
+                sec = 0
+            }
+
+            isoTime = `PT${min}M${sec}S`
+        }
+        bodyData.record.time_length = isoTime
+
+        if (!data.date) {
+            bodyData.record.date = data.selectedDate.format('YYYY-MM-DD')
+        }
+
+        delete bodyData.record.selectedDate
+        delete bodyData.record.minutes
+        delete bodyData.record.seconds
+
         const fetchHeaders = {
             "Content-Type": "application/json"
         }
-
-        console.log(data)
     
-        // fetch(url, {
-        //     method: "POST",
-        //     body: JSON.stringify(bodyData),
-        //     headers: fetchHeaders
-        // })
-        // .then(resp => resp.json())
-        // .then(result => {
-        //     console.log("result: ", result)
-        //     this.handleSuccessDialog()
-        //     this.handleClose()
-        //     this.props.fetchNewData()
-        // })
-        // .catch(error => {
-        //     console.log(error)
-        // })
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(bodyData),
+            headers: fetchHeaders
+        })
+        .then(resp => resp.json())
+        .then(result => {
+            console.log("result: ", result)
+            this.handleSuccessDialog()
+            this.handleClose()
+            this.props.fetchNewData()
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     render() {
