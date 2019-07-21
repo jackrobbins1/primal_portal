@@ -33,10 +33,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 
-import { Formik } from 'formik';
-import { object, number } from 'yup';
-
-import WeightChartForm from './WeightChartForm';
 
 const moment = require('moment');
 
@@ -300,26 +296,6 @@ class WeightChart extends Component{
               </Hint>)
     }
 
-    const validationSchema = object({
-      weight_lb: number()
-          .required("Weight is a required field")
-          .positive("Number must be positive"),
-      body_fat_perc: number()
-          .positive("Number must be positive")
-          .integer("Number can't have decimals"),
-      body_muscle_perc: number()
-          .positive("Number must be positive")
-          .integer("Number can't have decimals")
-    });
-
-    const values = {
-      weight_lb: '',
-      body_fat_perc: '',
-      body_muscle_perc: '',
-      date: '',
-      selectedDate: moment()
-    }
-
     return (
       <div>
         <Card className='myCard'>
@@ -402,12 +378,94 @@ class WeightChart extends Component{
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Add Weight Record</DialogTitle>
-          <Formik
-            render={props => <WeightChartForm {...props} handleClose={this.handleFormClose} />}
-            initialValues={values}
-            validationSchema={validationSchema}
-            onSubmit={this.handleFormSubmit}
-          />
+          <DialogContent>
+            <List className={classes.root}>
+              <ListItem>
+                  <FormControl className={classes.formControl} variant="outlined">
+                      <InputLabel
+                          ref={ref => {
+                          this.labelRef = ReactDOM.findDOMNode(ref);
+                          }}
+                          htmlFor="component-outlined"
+                      >
+                          Weight (lbs)
+                      </InputLabel>
+                      <OutlinedInput
+                          autoFocus
+                          fullWidth
+                          id="component-outlined"
+                          value={this.state.newWeightForm.weight_lb}
+                          name="weight_lb"
+                          onChange={this.handleFormChange}
+                          type="number"
+                          labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                      />
+                  </FormControl>
+                  <div className="addMargin">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                      <DatePicker
+                          disableFuture
+                          format="MM-dd-yyyy"
+                          margin="normal"
+                          label="Weigh Date"
+                          value={this.state.selectedDate}
+                          onChange={this.handleFormDate}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </div>
+              </ListItem>
+              <ListItem>
+                  <FormControl className={classes.formControl} variant="outlined">
+                      <InputLabel
+                          ref={ref => {
+                          this.labelRef = ReactDOM.findDOMNode(ref);
+                          }}
+                          htmlFor="component-outlined"
+                      >
+                          Body Fat Percent
+                      </InputLabel>
+                      <OutlinedInput
+                          fullWidth
+                          id="component-outlined"
+                          value={this.state.newWeightForm.body_fat_perc}
+                          name="body_fat_perc"
+                          onChange={this.handleFormChange}
+                          type="number"
+                          endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                          labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                      />
+                  </FormControl>
+                  <FormControl className={classes.formControl} variant="outlined">
+                      <InputLabel
+                          ref={ref => {
+                          this.labelRef = ReactDOM.findDOMNode(ref);
+                          }}
+                          htmlFor="component-outlined"
+                      >
+                          Body Muscle Percent
+                      </InputLabel>
+                      <OutlinedInput
+                          fullWidth
+                          id="component-outlined"
+                          value={this.state.newWeightForm.body_muscle_perc}
+                          name="body_muscle_perc"
+                          onChange={this.handleFormChange}
+                          type="number"
+                          endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                          labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
+                      />
+                  </FormControl>
+              </ListItem>
+            </List>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleFormClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleFormSubmit} color="primary">
+              Submit
+            </Button>
+          </DialogActions>
         </Dialog>
 
         <Dialog

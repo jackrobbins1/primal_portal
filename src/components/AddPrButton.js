@@ -194,9 +194,11 @@ class AddPrButton extends Component {
                 .integer("Number can't have decimals"),
             minutes: number()
                 // .required("Minutes is a required field")
+                .positive("Number must be positive")
                 .integer("Number can't have decimals"),
             seconds: number()
                 // .required("Seconds is a required field")
+                .positive("Number must be positive")
                 .integer("Number can't have decimals"),
         });
 
