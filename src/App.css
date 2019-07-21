@@ -113,9 +113,13 @@
   margin: auto;
 }
 
-.myDatePicker{
+.myDatePicker {
   /* margin-top: 8px !important; */
   margin-bottom: 8px !important;
+}
+
+.modalDatePicker {
+  margin-left: 12px;
 }
 
 .myWeightButton {

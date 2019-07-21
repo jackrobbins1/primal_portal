@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -226,7 +227,10 @@ export default function AddPrForm(props) {
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                label="Weight (kg)"
+                                label="Weight"
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">kg</InputAdornment>,
+                                }}
 
                                 value={weight}
                                 onChange={change.bind(null, "weight")}
@@ -295,16 +299,18 @@ export default function AddPrForm(props) {
                         null
                     }
                     <Grid>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                            <DatePicker
-                                disableFuture
-                                format="MM-dd-yyyy"
-                                margin="normal"
-                                label="Record Date"
-                                value={selectedDate}
-                                onChange={handleFormDate}
-                            />
-                        </MuiPickersUtilsProvider>
+                        <div className="modalDatePicker">
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                <DatePicker
+                                    disableFuture
+                                    format="MM-dd-yyyy"
+                                    margin="normal"
+                                    label="Record Date"
+                                    value={selectedDate}
+                                    onChange={handleFormDate}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
                     </Grid>
                 </Grid>
             </form>

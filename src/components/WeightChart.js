@@ -173,14 +173,28 @@ class WeightChart extends Component{
     }, 1500)
   }
 
-  handleFormSubmit = () => {
+  handleFormSubmit = data => {
     const url = `http://localhost:3000/api/v1/weights`
 
-    let data = Object.assign({}, {weight:{...this.state.newWeightForm}})
+    let bodyData = Object.assign({}, {weight:{...data}})
 
-    data.weight.weight_lb = parseFloat(data.weight.weight_lb);
-    data.weight.body_fat_perc = (parseFloat(data.weight.body_fat_perc) / 100);
-    data.weight.body_muscle_perc = (parseFloat(data.weight.body_muscle_perc) / 100);
+    if (!data.weigh_date) {
+      bodyData.weight.weigh_date = data.selectedDate.format('YYYY-MM-DD')
+    }
+
+    bodyData.weight.user_id = this.props.userData.user_info.id
+    bodyData.weight.weight_lb = parseFloat(data.weight_lb);
+    bodyData.weight.body_fat_perc = (parseFloat(data.body_fat_perc) / 100);
+    bodyData.weight.body_muscle_perc = (parseFloat(data.body_muscle_perc) / 100);
+
+    if (isNaN(bodyData.weight.body_fat_perc)) {
+      bodyData.weight.body_fat_perc = null
+    }
+    if (isNaN(bodyData.weight.body_muscle_perc)) {
+      bodyData.weight.body_muscle_perc = null
+    }
+
+    delete bodyData.weight.selectedDate
 
     const fetchHeaders = {
         "Content-Type": "application/json"
@@ -188,7 +202,7 @@ class WeightChart extends Component{
 
     fetch(url, {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(bodyData),
         headers: fetchHeaders
     })
     .then(resp => resp.json())
@@ -305,18 +319,16 @@ class WeightChart extends Component{
           .required("Weight is a required field")
           .positive("Number must be positive"),
       body_fat_perc: number()
-          .positive("Number must be positive")
-          .integer("Number can't have decimals"),
+          .positive("Number must be positive"),
       body_muscle_perc: number()
-          .positive("Number must be positive")
-          .integer("Number can't have decimals")
+          .positive("Number must be positive"),
     });
 
     const values = {
       weight_lb: '',
       body_fat_perc: '',
       body_muscle_perc: '',
-      date: '',
+      weigh_date: '',
       selectedDate: moment()
     }
 

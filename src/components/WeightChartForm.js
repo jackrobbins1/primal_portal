@@ -59,7 +59,7 @@ export default function AddPrForm(props) {
             weight_lb,
             body_fat_perc,
             body_muscle_perc,
-            date,
+            weigh_date,
             selectedDate
         },
         errors,
@@ -82,7 +82,7 @@ export default function AddPrForm(props) {
         const formattedDate = moment(newDate).format("YYYY-MM-DD")
     
         setFieldValue('selectedDate', newDate, false)
-        setFieldValue('date', formattedDate, false)
+        setFieldValue('weigh_date', formattedDate, false)
     }
 
 
@@ -105,7 +105,10 @@ export default function AddPrForm(props) {
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                label="Weight (lbs)"
+                                label="Weight"
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">lbs</InputAdornment>,
+                                }}
 
                                 value={weight_lb}
                                 onChange={change.bind(null, "weight_lb")}
@@ -135,7 +138,9 @@ export default function AddPrForm(props) {
                                 variant="outlined"
                                 fullWidth
                                 label="Body Fat Percent"
-                                endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                }}
 
                                 value={body_fat_perc}
                                 onChange={change.bind(null, "body_fat_perc")}
@@ -152,7 +157,9 @@ export default function AddPrForm(props) {
                                 variant="outlined"
                                 fullWidth
                                 label="Body Muscle Percent"
-                                endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                }}
 
                                 value={body_muscle_perc}
                                 onChange={change.bind(null, "body_muscle_perc")}
