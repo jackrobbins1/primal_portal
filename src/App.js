@@ -12,15 +12,17 @@ class App extends Component{
     user_id: localStorage.getItem("user_id") || false
   }
 
-  setLogin = userID => {
-    localStorage.setItem("user_id", `${userID}`)
+  setLogin = resp => {
+    localStorage.setItem("token", `${resp.token}`)
+    localStorage.setItem("user_id", `${resp.user_info.id}`)
     this.setState({
-      user_id: userID
+      user_id: resp.user_info.id
     })
   }
 
   handleLogout = () => {
     localStorage.setItem("user_id", "")
+    localStorage.setItem("token", "")
     this.setState({user_id: false})
   }
 

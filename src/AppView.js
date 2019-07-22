@@ -28,8 +28,20 @@ class AppView extends Component{
         user_id: this.props.user_id,
     }
 
+    // componentDidMount() {
+    //     fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}`)
+    //     .then(resp => resp.json())
+    //     .then(data => {
+    //         this.setState({userData: data})
+    //     })
+    // }
     componentDidMount() {
-        fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}`)
+        fetch(`http://localhost:3000/api/v1/users/profile`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
         .then(resp => resp.json())
         .then(data => {
             this.setState({userData: data})
@@ -42,8 +54,21 @@ class AppView extends Component{
         })
     }
 
+    // fetchNewData = () => {
+    //     fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}`)
+    //     .then(resp => resp.json())
+    //     .then(data => {
+    //         this.setState({userData: data})
+    //     })
+    // }
+
     fetchNewData = () => {
-        fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}`)
+        fetch(`http://localhost:3000/api/v1/users/profile`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
         .then(resp => resp.json())
         .then(data => {
             this.setState({userData: data})

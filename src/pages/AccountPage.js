@@ -66,73 +66,9 @@ class AccountPage extends PureComponent{
     constructor(props) {
         super(props)
 
-        const userInfo = props.userData.user_info
-
-        const nickNameKey = {
-            "pseudo name": true,
-            "full name": false,
-            "only me": false
-        }
-
         this.state = {        
-            username: userInfo.username,
-            first_name: userInfo.first_name,
-            last_name: userInfo.last_name,
-            pseudonym: userInfo.pseudonym,
-            pr_visibility: nickNameKey[userInfo.pr_visibility],
-            primary_color: userInfo.primary_color,
-            secondary_color: userInfo.secondary_color,
-            selectedDate: new Date(`${userInfo.birthday}T11:00:00-06:00`),
-            birthday: userInfo.birthday,
-            heightFt: Math.floor(userInfo.height / 12),
-            heightIn: Math.floor(userInfo.height % 12),
-            // weight: props.userData.weight_info[0],
-            share_all_prs: userInfo.share_all_prs,
-            share_age: userInfo.share_age,
-            share_height: userInfo.share_height,
-            share_weight: userInfo.share_weight,
             successMsgOpen: false
         }
-    }
-
-    handleUserInput = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-
-    handleSwitchInput = event => {
-        const myValue = {
-            'true': false,
-            'false': true
-        }
-        this.setState({
-            [event.target.name]: myValue[event.target.value]
-        })
-    }
-
-    handleRadioInput = event => {
-        const myValue = {
-            'true': true,
-            'false': false
-        }
-        this.setState({
-            [event.target.name]: myValue[event.target.value]
-        })
-    }
-
-    handleColorChange = (colorHex, inputType) => {
-        this.setState({
-            [inputType]: colorHex
-        })
-    }
-
-    handleDateChange = date => {
-        //   debugger;
-        this.setState({
-            selectedDate: date,
-            birthday: moment(date).format("YYYY-MM-DD")
-        })
     }
 
     handleSuccessDialog = () => {
@@ -146,43 +82,8 @@ class AccountPage extends PureComponent{
         }, 1500)
     }
 
-    handleSubmitUpdate = () => {
-        const userID = this.props.userData.user_info.id
-        const url = `http://localhost:3000/api/v1/users/${userID}`
-
-        let data = Object.assign({}, {user:{...this.state}})
-
-        
-        data.user.height = ((parseInt(this.state.heightFt) * 12) + parseInt(this.state.heightIn))
-
-        delete data.user.heightFt;
-        delete data.user.heightIn;
-        delete data.user.selectedDate;
-        delete data.user.successMsgOpen;
-
-        const fetchHeaders = {
-            "Content-Type": "application/json"
-        }
-
-        fetch(url, {
-            method: "PATCH",
-            body: JSON.stringify(data),
-            headers: fetchHeaders
-        })
-        .then(resp => resp.json())
-        .then(result => {
-            console.log("result: ", result)
-            this.handleSuccessDialog()
-            this.props.fetchNewData()
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    }
-
     submitForm = data => {
-        const userID = this.props.userData.user_info.id
-        const url = `http://localhost:3000/api/v1/users/${userID}`
+        const url = `http://localhost:3000/api/v1/users`
         let bodyData = Object.assign({}, {user:{...data}})
         // code below is converting ft and inch units to just inches
         bodyData.user.height = ((parseInt(this.state.heightFt) * 12) + parseInt(this.state.heightIn))
@@ -192,7 +93,8 @@ class AccountPage extends PureComponent{
         delete bodyData.user.selectedDate;
 
         const fetchHeaders = {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
         }
 
         fetch(url, {

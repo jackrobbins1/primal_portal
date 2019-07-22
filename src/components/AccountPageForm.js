@@ -112,15 +112,18 @@ export default function AccountPageForm(props) {
             share_weight
             },
         errors,
+        status,
         touched,
         handleSubmit,
         handleChange,
         isValid,
         setFieldTouched,
-        setFieldValue
+        setFieldValue,
+        setStatus
     } = props;
 
     const change = (name, e) => {
+        setStatus({SubmitNoChange: false})
         e.persist();
         handleChange(e);
         setFieldTouched(name, true, false);
@@ -130,15 +133,18 @@ export default function AccountPageForm(props) {
     //     setValues({inputType: colorHex})
     // }
     const handleColorChange = (colorHex, inputType) => {
+        setStatus({SubmitNoChange: false})
         setFieldValue(inputType, colorHex, false)
     }
 
     const handleDateChange = date => {
+        setStatus({SubmitNoChange: false})
         setFieldValue('selectedDate', date, false)
         setFieldValue('birthday', moment(date).format("YYYY-MM-DD"), false)
     }
 
     const handleRadioInput = event => {
+        setStatus({SubmitNoChange: false})
         const myValue = {
             'true': true,
             'false': false
@@ -150,6 +156,7 @@ export default function AccountPageForm(props) {
     }
 
     const handleSwitchInput = event => {
+        setStatus({SubmitNoChange: false})
         const myValue = {
             'true': false,
             'false': true
@@ -161,8 +168,14 @@ export default function AccountPageForm(props) {
 
     }
 
+    const clickedSubmit = e => {
+        e.preventDefault()
+        handleSubmit()
+        setStatus({SubmitNoChange: true})
+    }
+
     return (
-        <form onSubmit={handleSubmit} className={classes.root}>
+        <form onSubmit={clickedSubmit} className={classes.root}>
             <Grid container spacing={2}>
                 <Grid item sm={12} xs={12}>
                     <TextField 
@@ -412,7 +425,7 @@ export default function AccountPageForm(props) {
             <div className="floatingButtonsContainer">
                 <div>
                     <Button component={Link} to="/" className="floatingButtons left" variant="contained">Cancel</Button>
-                    <Button type="submit" disabled={!isValid} className="floatingButtons right" variant="contained" color="primary">Save</Button>
+                    <Button type="submit" disabled={!isValid || status.SubmitNoChange} className="floatingButtons right" variant="contained" color="primary">Save</Button>
                 </div>
             </div>
 

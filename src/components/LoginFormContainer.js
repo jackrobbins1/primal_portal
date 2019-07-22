@@ -56,7 +56,7 @@ export default function LoginFormContainer(props) {
         .then(result => {
             console.log("result: ", result)
             setTimeout( () => {
-                props.setLogin(result.id)
+                props.setLogin(result)
             }, 400)
         })
         .catch(error => {

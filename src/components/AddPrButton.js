@@ -135,7 +135,7 @@ class AddPrButton extends Component {
     
         // data.record.weight = parseFloat(data.record.weight);
 
-        bodyData.record.user_id = this.props.userID
+        // bodyData.record.user_id = this.props.userID
 
         let isoTime = null
 
@@ -161,7 +161,8 @@ class AddPrButton extends Component {
         delete bodyData.record.seconds
 
         const fetchHeaders = {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
         }
     
         fetch(url, {
