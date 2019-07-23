@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {XYPlot, LineSeries} from 'react-vis';
 import AppView from './AppView';
 import Login from './pages/Login';
-import Navbar from './components/Navbar'
+import SideNavv from './components/SideNavv'
 import './App.css';
 import '../node_modules/react-vis/dist/style.css';
 
@@ -28,13 +28,11 @@ class App extends Component{
 
   render() {
     return (
-      <div>
-        
-        {/* {this.state.loggedIn ? <AppView user_id={this.state.user_id} /> */}
+      <React.Fragment>
         {this.state.user_id ? <AppView user_id={this.state.user_id} handleLogout={this.handleLogout} />
          : 
         <Login setLogin={this.setLogin} />}
-      </div>
+      </React.Fragment>
     )
   }
 }

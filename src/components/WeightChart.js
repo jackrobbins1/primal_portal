@@ -182,7 +182,6 @@ class WeightChart extends Component{
       bodyData.weight.weigh_date = data.selectedDate.format('YYYY-MM-DD')
     }
 
-    bodyData.weight.user_id = this.props.userData.user_info.id
     bodyData.weight.weight_lb = parseFloat(data.weight_lb);
     bodyData.weight.body_fat_perc = (parseFloat(data.body_fat_perc) / 100);
     bodyData.weight.body_muscle_perc = (parseFloat(data.body_muscle_perc) / 100);
@@ -197,7 +196,8 @@ class WeightChart extends Component{
     delete bodyData.weight.selectedDate
 
     const fetchHeaders = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
     }
 
     fetch(url, {
