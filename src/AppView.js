@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
 // Components
 import Navbarr from './components/Navbarr'
 import SideNavv from './components/SideNavv'
+import NavigationContainer from './components/NavigationContainer'
 
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
@@ -82,8 +83,7 @@ class AppView extends Component{
             // </div>
 
             <Router>
-                <Navbarr sideNavHandler={this.sideNavHandler} handleLogout={this.props.handleLogout} />
-                <SideNavv openSideNav={this.state.sideNavOpen} sideNavHandler={this.sideNavHandler} />
+                <NavigationContainer handleLogout={this.props.handleLogout}></NavigationContainer>
                 <div>
                     <Route exact path="/" component={() => this.state.userData ? <HomePage userData={this.state.userData} fetchNewData={this.fetchNewData} /> : null}  />
                     <Route exact path="/my_personal_records" render={() => (<MyPRsPage completedPRs={this.state.userData.record_categories} unrecordedPRs={this.state.userData.unrecorded_categories} />)}  />

@@ -33,7 +33,7 @@ class SideNavv extends Component {
   };
 
   toggleDrawer = (open) => () => {
-    this.props.sideNavHandler()
+    this.props.sideNavHandler(open)
     this.setState({
       left: open,
     });
