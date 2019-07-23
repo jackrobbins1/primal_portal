@@ -25,7 +25,6 @@ import AccountPage from './pages/AccountPage';
 
 class AppView extends Component{
     state = {
-        sideNavOpen: false,
         user_id: this.props.user_id,
     }
 
@@ -46,12 +45,6 @@ class AppView extends Component{
         .then(resp => resp.json())
         .then(data => {
             this.setState({userData: data})
-        })
-    }
-
-    sideNavHandler = () => {
-        this.setState({
-            sideNavOpen: !this.state.sideNavOpen
         })
     }
 
