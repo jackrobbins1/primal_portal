@@ -50,40 +50,9 @@ class CategoryChartt extends Component{
     }
   }
 
-  componentDidMount() {
-    if (this.props.homeChart) {
-      fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`)
-      .then(resp => resp.json())
-      .then(data => {
-        this.setState({
-          newData: data,
-          categoryTitle: data.category_info,
-          yAxis: data.category_chart_data.length > 0 ? data.category_chart_data[0].recordType : 'weight'
-        })
-      })
-  
-      fetch(`http://localhost:3000/api/v1/pr_categories`)
-      .then(resp => resp.json())
-      .then(data => {
-          this.setState({categoryList: data})
-      })
-    } else {
-      fetch(`http://localhost:3000/api/v1/pr_categories`)
-      .then(resp => resp.json())
-      .then(data => {
-          this.setState({categoryList: data})
-      })
-    }
-  }
-
   // componentDidMount() {
   //   if (this.props.homeChart) {
-  //     fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`
-  //       }
-  //     })
+  //     fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`)
   //     .then(resp => resp.json())
   //     .then(data => {
   //       this.setState({
@@ -93,23 +62,13 @@ class CategoryChartt extends Component{
   //       })
   //     })
   
-  //     fetch(`http://localhost:3000/api/v1/pr_categories`, {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`
-  //       }
-  //     })
+  //     fetch(`http://localhost:3000/api/v1/pr_categories`)
   //     .then(resp => resp.json())
   //     .then(data => {
   //         this.setState({categoryList: data})
   //     })
   //   } else {
-  //     fetch(`http://localhost:3000/api/v1/pr_categories`, {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`
-  //       }
-  //     })
+  //     fetch(`http://localhost:3000/api/v1/pr_categories`)
   //     .then(resp => resp.json())
   //     .then(data => {
   //         this.setState({categoryList: data})
@@ -117,24 +76,49 @@ class CategoryChartt extends Component{
   //   }
   // }
 
-  componentWillReceiveProps(nextProps) {
-    fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`)
-    .then(resp => resp.json())
-    .then(data => {
-      this.setState({
-        newData: data,
-        categoryTitle: data.category_info,
-        yAxis: data.category_chart_data.length > 0 ? data.category_chart_data[0].recordType : 'weight'
+  componentDidMount() {
+    if (this.props.homeChart) {
+      fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
       })
-    })
+      .then(resp => resp.json())
+      .then(data => {
+        this.setState({
+          newData: data,
+          categoryTitle: data.category_info,
+          yAxis: data.category_chart_data.length > 0 ? data.category_chart_data[0].recordType : 'weight'
+        })
+      })
+  
+      fetch(`http://localhost:3000/api/v1/pr_categories`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      .then(resp => resp.json())
+      .then(data => {
+          this.setState({categoryList: data})
+      })
+    } else {
+      fetch(`http://localhost:3000/api/v1/pr_categories`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      .then(resp => resp.json())
+      .then(data => {
+          this.setState({categoryList: data})
+      })
+    }
   }
+
   // componentWillReceiveProps(nextProps) {
-  //   fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`
-  //       }
-  //   })
+  //   fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`)
   //   .then(resp => resp.json())
   //   .then(data => {
   //     this.setState({
@@ -144,6 +128,22 @@ class CategoryChartt extends Component{
   //     })
   //   })
   // }
+  componentWillReceiveProps(nextProps) {
+    fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      this.setState({
+        newData: data,
+        categoryTitle: data.category_info,
+        yAxis: data.category_chart_data.length > 0 ? data.category_chart_data[0].recordType : 'weight'
+      })
+    })
+  }
 
   filterHintData = data => {
 
