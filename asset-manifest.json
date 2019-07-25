@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/primal_portal/static/css/main.0c5de245.chunk.css",
+    "main.js": "/primal_portal/static/js/main.4a1bbb72.chunk.js",
+    "main.js.map": "/primal_portal/static/js/main.4a1bbb72.chunk.js.map",
+    "runtime~main.js": "/primal_portal/static/js/runtime~main.e81b8bdf.js",
+    "runtime~main.js.map": "/primal_portal/static/js/runtime~main.e81b8bdf.js.map",
+    "static/css/2.5a2f7233.chunk.css": "/primal_portal/static/css/2.5a2f7233.chunk.css",
+    "static/js/2.f9ba2f41.chunk.js": "/primal_portal/static/js/2.f9ba2f41.chunk.js",
+    "static/js/2.f9ba2f41.chunk.js.map": "/primal_portal/static/js/2.f9ba2f41.chunk.js.map",
+    "index.html": "/primal_portal/index.html",
+    "precache-manifest.ba923373bb9f97b257dc279154e30ca9.js": "/primal_portal/precache-manifest.ba923373bb9f97b257dc279154e30ca9.js",
+    "service-worker.js": "/primal_portal/service-worker.js",
+    "static/css/2.5a2f7233.chunk.css.map": "/primal_portal/static/css/2.5a2f7233.chunk.css.map",
+    "static/css/main.0c5de245.chunk.css.map": "/primal_portal/static/css/main.0c5de245.chunk.css.map"
+  }
+}
