@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -53,6 +53,9 @@ export default function CreateAcctForm(props) {
     
     const [successMsgOpen, handleSuccessDialog] = useState(false)
 
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
+
     const submitForm = data => {
         
         const url = `http://localhost:3000/api/v1/users`
@@ -84,6 +87,7 @@ export default function CreateAcctForm(props) {
             setTimeout( () => {
                 handleSuccessDialog(false)
                 props.handleChangeIndex(0)
+                forceUpdate()
             }, 1500)
         })
         .catch(error => {
