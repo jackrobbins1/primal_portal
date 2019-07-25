@@ -129,7 +129,7 @@ class AddPrButton extends Component {
     }
 
     handleFormSubmit = data => {
-        const url = `http://localhost:3000/api/v1/records`
+        const url = `https://pacific-brook-51476.herokuapp.com/api/v1/records`
     
         let bodyData = Object.assign({}, {record:{...data}})
     

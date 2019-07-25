@@ -146,7 +146,7 @@ class AccountPage extends PureComponent{
 
     handleSubmitUpdate = () => {
         const userID = this.props.userData.user_info.id
-        const url = `http://localhost:3000/api/v1/users/${userID}`
+        const url = `https://pacific-brook-51476.herokuapp.com/api/v1/users/${userID}`
 
         let data = Object.assign({}, {user:{...this.state}})
 

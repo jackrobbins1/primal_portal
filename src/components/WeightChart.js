@@ -174,7 +174,7 @@ class WeightChart extends Component{
   }
 
   handleFormSubmit = data => {
-    const url = `http://localhost:3000/api/v1/weights`
+    const url = `https://pacific-brook-51476.herokuapp.com/api/v1/weights`
 
     let bodyData = Object.assign({}, {weight:{...data}})
 

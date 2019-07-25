@@ -46,20 +46,47 @@ const useStyles = makeStyles(theme => ({
 export default function CreateAcctForm(props) {
     const classes = useStyles();
 
-    const [first_name, handleFirstName] = useState("");
-    const [last_name, handleLastName] = useState("");
-    const [email, handleEmail] = useState("");
-    const [username, handleUsername] = useState("");
-    const [password_digest, handlePassword] = useState("");
+    // const [first_name, handleFirstName] = useState("");
+    // const [last_name, handleLastName] = useState("");
+    // const [email, handleEmail] = useState("");
+    // const [username, handleUsername] = useState("");
+    // const [password_digest, handlePassword] = useState("");
     
-    const [submitWasClicked, handleSubmitClicked] = useState(false);
+    // const [submitWasClicked, handleSubmitClicked] = useState(false);
+
+    const {
+      values: {
+          username,
+          first_name,
+          last_name,
+          email,
+          password_digest,
+          confirmPassword
+          },
+      errors,
+      status,
+      touched,
+      handleSubmit,
+      handleChange,
+      isValid,
+      setFieldTouched,
+      setFieldValue,
+      setStatus
+    } = props;
+
+    const change = (name, e) => {
+      setStatus({SubmitNoChange: false})
+      e.persist();
+      handleChange(e);
+      setFieldTouched(name, true, false);
+    };
 
     const [successMsgOpen, handleSuccessDialog] = useState(false)
 
   const submitForm = () => {
     handleSubmitClicked(true)
     
-    const url = `http://localhost:3000/api/v1/users`
+    const url = `https://pacific-brook-51476.herokuapp.com/api/v1/users`
     
     let data = {user:{
                     first_name: first_name,

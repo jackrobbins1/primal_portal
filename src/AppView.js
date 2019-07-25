@@ -29,14 +29,14 @@ class AppView extends Component{
     }
 
     // componentDidMount() {
-    //     fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}`)
+    //     fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/users/${this.state.user_id}`)
     //     .then(resp => resp.json())
     //     .then(data => {
     //         this.setState({userData: data})
     //     })
     // }
     componentDidMount() {
-        fetch(`http://localhost:3000/api/v1/users/profile`, {
+        fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/users/profile`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -49,7 +49,7 @@ class AppView extends Component{
     }
 
     // fetchNewData = () => {
-    //     fetch(`http://localhost:3000/api/v1/users/${this.state.user_id}`)
+    //     fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/users/${this.state.user_id}`)
     //     .then(resp => resp.json())
     //     .then(data => {
     //         this.setState({userData: data})
@@ -57,7 +57,7 @@ class AppView extends Component{
     // }
 
     fetchNewData = () => {
-        fetch(`http://localhost:3000/api/v1/users/profile`, {
+        fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/users/profile`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

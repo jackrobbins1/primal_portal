@@ -83,7 +83,7 @@ class AccountPage extends PureComponent{
     }
 
     submitForm = data => {
-        const url = `http://localhost:3000/api/v1/users`
+        const url = `https://pacific-brook-51476.herokuapp.com/api/v1/users`
         let bodyData = Object.assign({}, {user:{...data}})
         // code below is converting ft and inch units to just inches
         bodyData.user.height = ((parseInt(this.state.heightFt) * 12) + parseInt(this.state.heightIn))

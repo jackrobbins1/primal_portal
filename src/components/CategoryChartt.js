@@ -52,7 +52,7 @@ class CategoryChartt extends Component{
 
   // componentDidMount() {
   //   if (this.props.homeChart) {
-  //     fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`)
+  //     fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories/${this.props.prCategoryID}`)
   //     .then(resp => resp.json())
   //     .then(data => {
   //       this.setState({
@@ -62,13 +62,13 @@ class CategoryChartt extends Component{
   //       })
   //     })
   
-  //     fetch(`http://localhost:3000/api/v1/pr_categories`)
+  //     fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories`)
   //     .then(resp => resp.json())
   //     .then(data => {
   //         this.setState({categoryList: data})
   //     })
   //   } else {
-  //     fetch(`http://localhost:3000/api/v1/pr_categories`)
+  //     fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories`)
   //     .then(resp => resp.json())
   //     .then(data => {
   //         this.setState({categoryList: data})
@@ -78,7 +78,7 @@ class CategoryChartt extends Component{
 
   componentDidMount() {
     if (this.props.homeChart) {
-      fetch(`http://localhost:3000/api/v1/pr_categories/${this.props.prCategoryID}`, {
+      fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories/${this.props.prCategoryID}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -93,7 +93,7 @@ class CategoryChartt extends Component{
         })
       })
   
-      fetch(`http://localhost:3000/api/v1/pr_categories`, {
+      fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -104,7 +104,7 @@ class CategoryChartt extends Component{
           this.setState({categoryList: data})
       })
     } else {
-      fetch(`http://localhost:3000/api/v1/pr_categories`, {
+      fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -118,7 +118,7 @@ class CategoryChartt extends Component{
   }
 
   // componentWillReceiveProps(nextProps) {
-  //   fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`)
+  //   fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories/${nextProps.prCategoryID}`)
   //   .then(resp => resp.json())
   //   .then(data => {
   //     this.setState({
@@ -129,7 +129,7 @@ class CategoryChartt extends Component{
   //   })
   // }
   componentWillReceiveProps(nextProps) {
-    fetch(`http://localhost:3000/api/v1/pr_categories/${nextProps.prCategoryID}`, {
+    fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories/${nextProps.prCategoryID}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`

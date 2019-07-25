@@ -51,14 +51,14 @@ class CategoryChartPersonal extends Component{
   }
 
   // componentDidMount() {
-  //   fetch(`http://localhost:3000/api/v1/pr_categories`)
+  //   fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories`)
   //   .then(resp => resp.json())
   //   .then(data => {
   //       this.setState({categoryList: data})
   //   })
   // }
   componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/pr_categories`, {
+    fetch(`https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`

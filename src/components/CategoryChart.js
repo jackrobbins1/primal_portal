@@ -9,7 +9,7 @@ class CategoryChart extends Component{
   }
 
   componentDidMount() {
-      fetch('http://localhost:3000/api/v1/pr_categories/1')
+      fetch('https://pacific-brook-51476.herokuapp.com/api/v1/pr_categories/1')
       .then(resp => resp.json())
       .then(data => {
           this.setState({newData: data})

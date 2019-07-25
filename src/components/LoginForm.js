@@ -45,7 +45,7 @@ export default function LoginForm(props) {
     const [password_digest, handlePassword] = useState("");
 
     const submitLogin = () => {
-        const url = `http://localhost:3000/api/v1/users/login`
+        const url = `https://pacific-brook-51476.herokuapp.com/api/v1/users/login`
         
         let data = {login:{
                         username: username,

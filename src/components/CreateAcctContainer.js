@@ -58,7 +58,7 @@ export default function CreateAcctForm(props) {
 
     const submitForm = data => {
         
-        const url = `http://localhost:3000/api/v1/users`
+        const url = `https://pacific-brook-51476.herokuapp.com/api/v1/users`
         
         const bodyData = {user:{
                         first_name: data.first_name,
